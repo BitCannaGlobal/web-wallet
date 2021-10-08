@@ -1,0 +1,20 @@
+@import "./themes/lunie-light.css";
+@import "./colors.css";
+
+:root {
+  --text-xs: 0.7rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+  --text-4xl: 2.25rem;
+  --text-5xl: 3rem;
+  --text-6xl: 4rem;
+  --sidebar-width: 224px;
+  --z-modal: 1000;
+  --z-appHeader: 100;
+  --z-appMenu: 99;
+  --border-radius: 0.3rem;
+}
