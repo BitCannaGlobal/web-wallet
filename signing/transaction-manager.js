@@ -1,4 +1,4 @@
-// Update version for using version 0.44.0 of the cosmos sdk
+// Update version for using version 0.44.0 of the cosmos sdk / keplr
 // By @atmoner for Bitcanna 2021
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import {
@@ -57,7 +57,8 @@ export async function createSignBroadcast({
   ledgerTransport,
 }) {
   const feeData = getFees(messageType, feeDenom)
-  // await console.log(ledgerTransport)
+  // await console.log(signingType)
+
   if (signingType !== 'extension') {
     const signer = await getSigner(
       signingType,
@@ -73,12 +74,13 @@ export async function createSignBroadcast({
         try {
           const finalAmout = (message.amounts[0].amount * 1000000).toString()
           const getTx = await sendTxBcna(
-            signer.secret.data,
+            signer,
             senderAddress,
             message.to[0],
             finalAmout,
             feeData,
-            memo
+            memo,
+            signingType
           )
           return {
             hash: getTx.transactionHash,
@@ -90,11 +92,12 @@ export async function createSignBroadcast({
         try {
           const finalAmout = (message.amount.amount * 1000000).toString()
           const getTx = await delegateTokensBcna(
-            signer.secret.data,
+            signer,
             senderAddress,
             message.to[0],
             finalAmout,
-            feeData
+            feeData,
+            signingType
           )
           return {
             hash: getTx.transactionHash,
@@ -106,11 +109,12 @@ export async function createSignBroadcast({
         try {
           const finalAmout = (message.amount.amount * 1000000).toString()
           const getTx = await unDelegateTokensBcna(
-            signer.secret.data,
+            signer,
             message.from[0],
             senderAddress,
             finalAmout,
-            feeData
+            feeData,
+            signingType
           )
           return {
             hash: getTx.transactionHash,
@@ -122,10 +126,11 @@ export async function createSignBroadcast({
         try {
           // TODO foreach validator to reward
           const getTx = await rewardBcna(
-            signer.secret.data,
+            signer,
             senderAddress,
             message.from[0],
-            feeData
+            feeData,
+            signingType
           )
           return {
             hash: getTx.transactionHash,
@@ -136,11 +141,12 @@ export async function createSignBroadcast({
       case 'VoteTx':
         try {
           const getTx = await voteTxBcna(
-            signer.secret.data,
+            signer,
             senderAddress,
             message.proposalId,
             message.voteOption,
-            feeData
+            feeData,
+            signingType
           )
           return {
             hash: getTx.transactionHash,
@@ -151,15 +157,26 @@ export async function createSignBroadcast({
       default:
         console.log(`Sorry, we are out of ${messageType}.`)
     }
-  } else {
-    // Here is new code for Ledger/Keplr
   }
 }
 
-async function sendTxBcna(mnemonic, addFrom, addTo, amountBcna, fee, memo) {
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    prefix: 'bcna',
-  })
+async function sendTxBcna(
+  sign,
+  addFrom,
+  addTo,
+  amountBcna,
+  fee,
+  memo,
+  signingType
+) {
+  let wallet = ''
+  if (signingType !== 'keplr') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
 
   const client = await SigningStargateClient.connectWithSigner(
     network.rpcURL,
@@ -175,10 +192,15 @@ async function sendTxBcna(mnemonic, addFrom, addTo, amountBcna, fee, memo) {
 
   return result
 }
-async function rewardBcna(mnemonic, addFrom, addTo, fee) {
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    prefix: 'bcna',
-  })
+async function rewardBcna(sign, addFrom, addTo, fee, signingType) {
+  let wallet = ''
+  if (signingType !== 'keplr') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
 
   const client = await SigningStargateClient.connectWithSigner(
     network.rpcURL,
@@ -195,10 +217,22 @@ async function rewardBcna(mnemonic, addFrom, addTo, fee) {
   return result
 }
 
-async function delegateTokensBcna(mnemonic, addFrom, addTo, amountBcna, fee) {
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    prefix: 'bcna',
-  })
+async function delegateTokensBcna(
+  sign,
+  addFrom,
+  addTo,
+  amountBcna,
+  fee,
+  signingType
+) {
+  let wallet = ''
+  if (signingType !== 'keplr') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
 
   const client = await SigningStargateClient.connectWithSigner(
     network.rpcURL,
@@ -215,21 +249,27 @@ async function delegateTokensBcna(mnemonic, addFrom, addTo, amountBcna, fee) {
     addTo,
     amount,
     fee,
-    'Delegated from Bitcanna WebWallet'
+    'Delegated from WebWallet'
   )
   assertIsBroadcastTxSuccess(result)
   return result
 }
 async function unDelegateTokensBcna(
-  mnemonic,
+  sign,
   validator,
   fromDel,
   amountBcna,
-  fee
+  fee,
+  signingType
 ) {
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    prefix: 'bcna',
-  })
+  let wallet = ''
+  if (signingType !== 'keplr') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
 
   const client = await SigningStargateClient.connectWithSigner(
     network.rpcURL,
@@ -252,10 +292,15 @@ async function unDelegateTokensBcna(
   return result
 }
 
-async function voteTxBcna(mnemonic, fromDel, proposalId, vote, fee) {
-  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
-    prefix: 'bcna',
-  })
+async function voteTxBcna(sign, fromDel, proposalId, vote, fee, signingType) {
+  let wallet = ''
+  if (signingType !== 'keplr') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
 
   const client = await SigningStargateClient.connectWithSigner(
     network.rpcURL,
