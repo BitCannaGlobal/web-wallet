@@ -1,11 +1,16 @@
+// Update version for using version 0.44.0 of the cosmos sdk
+// By @atmoner for Bitcanna 2021
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
+import {
+  assertIsBroadcastTxSuccess,
+  SigningStargateClient,
+} from '@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
-import { makeStdTx, makeSignDoc } from '@cosmjs/launchpad'
-import axios from 'axios'
 import { getSigner } from './signer'
-import messageCreators from './messages.js'
+// import messageCreators from './messages.js'
 import fees from '~/common/fees'
 import network from '~/common/network'
-import { signWithExtension } from '~/common/extension-utils'
+// import { signWithExtension } from '~/common/extension-utils'
 
 export function getFees(transactionType, feeDenom) {
   const { gasEstimate, feeOptions } = fees.getFees(transactionType)
@@ -21,9 +26,20 @@ export function getFees(transactionType, feeDenom) {
     },
   ]
   return {
-    gasEstimate: String(gasEstimate),
-    fee: convertedFee,
+    gas: String(gasEstimate),
+    amount: convertedFee,
   }
+  /* First example
+  const fee = {
+    amount: [
+      {
+        denom: 'ubcna',
+        amount: '5000',
+      },
+    ],
+    gas: '200000',
+  }
+  */
 }
 
 export async function createSignBroadcast({
@@ -41,25 +57,8 @@ export async function createSignBroadcast({
   ledgerTransport,
 }) {
   const feeData = getFees(messageType, feeDenom)
-  const transactionData = {
-    ...feeData,
-    memo,
-    chainId,
-    accountNumber: accountInfo.accountNumber,
-    accountSequence: accountInfo.sequence,
-  }
-
-  let signedTx
-
-  if (signingType === 'extension') {
-    signedTx = await signWithExtension(
-      messageType,
-      message,
-      transactionData,
-      senderAddress,
-      network
-    )
-  } else {
+  // await console.log(ledgerTransport)
+  if (signingType !== 'extension') {
     const signer = await getSigner(
       signingType,
       {
@@ -69,68 +68,227 @@ export async function createSignBroadcast({
       chainId,
       ledgerTransport
     )
-
-    const messages = messageCreators[messageType](
-      senderAddress,
-      message,
-      network
-    )
-
-    const signDoc = makeSignDoc(
-      [].concat(messages),
-      {
-        amount: transactionData.fee,
-        gas: transactionData.gasEstimate,
-      },
-      chainId,
-      memo || '',
-      accountInfo.accountNumber,
-      accountInfo.sequence
-    )
-
-    const { signed, signature } = await signer.sign(senderAddress, signDoc)
-    signedTx = makeStdTx(signed, signature)
-  }
-
-  const broadcastBody = {
-    tx: signedTx,
-  }
-  const broadcastResult = await axios
-    .post(`${network.apiURL}/cosmos/tx/v1beta1/txs`, broadcastBody)
-    .then((res) => res.data)
-  assertIsBroadcastTxSuccess(broadcastResult)
-
-  return {
-    hash: broadcastResult.txhash,
+    switch (messageType) {
+      case 'SendTx':
+        try {
+          const finalAmout = (message.amounts[0].amount * 1000000).toString()
+          const getTx = await sendTxBcna(
+            signer.secret.data,
+            senderAddress,
+            message.to[0],
+            finalAmout,
+            feeData,
+            memo
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      case 'StakeTx':
+        try {
+          const finalAmout = (message.amount.amount * 1000000).toString()
+          const getTx = await delegateTokensBcna(
+            signer.secret.data,
+            senderAddress,
+            message.to[0],
+            finalAmout,
+            feeData
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      case 'UnstakeTx':
+        try {
+          const finalAmout = (message.amount.amount * 1000000).toString()
+          const getTx = await unDelegateTokensBcna(
+            signer.secret.data,
+            message.from[0],
+            senderAddress,
+            finalAmout,
+            feeData
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      case 'ClaimRewardsTx':
+        try {
+          // TODO foreach validator to reward
+          const getTx = await rewardBcna(
+            signer.secret.data,
+            senderAddress,
+            message.from[0],
+            feeData
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      case 'VoteTx':
+        try {
+          const getTx = await voteTxBcna(
+            signer.secret.data,
+            senderAddress,
+            message.proposalId,
+            message.voteOption,
+            feeData
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      default:
+        console.log(`Sorry, we are out of ${messageType}.`)
+    }
+  } else {
+    // Here is new code for Ledger/Keplr
   }
 }
 
-export function assertIsBroadcastTxSuccess(res) {
-  if (!res) throw new Error(`Error sending transaction`)
-  if (Array.isArray(res)) {
-    if (res.length === 0) throw new Error(`Error sending transaction`)
+async function sendTxBcna(mnemonic, addFrom, addTo, amountBcna, fee, memo) {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: 'bcna',
+  })
 
-    res.forEach(assertIsBroadcastTxSuccess)
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+  const amount = {
+    denom: 'ubcna',
+    amount: amountBcna,
   }
 
-  if (res.error) {
-    throw new Error(res.error)
+  const result = await client.sendTokens(addFrom, addTo, [amount], fee, memo)
+  assertIsBroadcastTxSuccess(result)
+
+  return result
+}
+async function rewardBcna(mnemonic, addFrom, addTo, fee) {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: 'bcna',
+  })
+
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+
+  const result = await client.withdrawRewards(
+    addFrom,
+    addTo,
+    fee,
+    'Reward from lunie!'
+  )
+  assertIsBroadcastTxSuccess(result)
+  return result
+}
+
+async function delegateTokensBcna(mnemonic, addFrom, addTo, amountBcna, fee) {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: 'bcna',
+  })
+
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+
+  const amount = {
+    denom: 'ubcna',
+    amount: amountBcna,
   }
 
-  // Sometimes we get back failed transactions, which shows only by them having a `code` property
-  if (res.code) {
-    const message = res.raw_log.message
-      ? JSON.parse(res.raw_log).message
-      : res.raw_log
-    throw new Error(message)
+  const result = await client.delegateTokens(
+    addFrom,
+    addTo,
+    amount,
+    fee,
+    'Delegated from Bitcanna WebWallet'
+  )
+  assertIsBroadcastTxSuccess(result)
+  return result
+}
+async function unDelegateTokensBcna(
+  mnemonic,
+  validator,
+  fromDel,
+  amountBcna,
+  fee
+) {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: 'bcna',
+  })
+
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+
+  const amount = {
+    denom: 'ubcna',
+    amount: amountBcna,
   }
 
-  if (!res.txhash) {
-    const message = res.message
-    throw new Error(message)
+  const result = await client.undelegateTokens(
+    fromDel,
+    validator,
+    amount,
+    fee,
+    'Undelegate from Bitcanna WebWallet'
+  )
+  assertIsBroadcastTxSuccess(result)
+  return result
+}
+
+async function voteTxBcna(mnemonic, fromDel, proposalId, vote, fee) {
+  const wallet = await DirectSecp256k1HdWallet.fromMnemonic(mnemonic, {
+    prefix: 'bcna',
+  })
+
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+  // More info: https://docs.cosmos.network/master/core/proto-docs.html#cosmos.gov.v1beta1.VoteOption
+  let finalVote
+  switch (vote) {
+    case 'Yes':
+      finalVote = '1'
+      break
+    case 'Abstain':
+      finalVote = '2'
+      break
+    case 'No':
+      finalVote = '3'
+      break
+    case 'NoWithVeto':
+      finalVote = '4'
+      break
+    default:
+      finalVote = '0'
   }
 
-  return res
+  const result = await client.voteProposale(
+    fromDel,
+    proposalId,
+    finalVote,
+    fee,
+    'Voted from Bitcanna WebWallet'
+  )
+  assertIsBroadcastTxSuccess(result)
+  return result
 }
 
 export async function pollTxInclusion(txHash, iteration = 0) {
