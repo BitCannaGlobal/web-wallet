@@ -7,7 +7,7 @@ export default {
   website: 'https://www.bitcanna.io',
   apiURL: 'https://lcd.bitcanna.io',
   rpcURL: 'https://rpc.bitcanna.io',
-  explorerURL: 'https://testnet-explorer.bitcanna.io',
+  explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
   exchangeApiUrl: 'https://bcna-payment.dmosrv.com',
   // minBlockHeight: 5200792, // actually 5200791, but it has the wrong block time.
