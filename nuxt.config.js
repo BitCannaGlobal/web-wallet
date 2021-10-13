@@ -79,6 +79,20 @@ export default {
     'nuxt-material-design-icons',
     // https://github.com/microcipcip/cookie-universal/tree/master/packages/cookie-universal-nuxt#readme
     'cookie-universal-nuxt',
+    // https://github.com/dansmaculotte/nuxt-security
+    [
+      '@dansmaculotte/nuxt-security',
+      {
+        dev: true,
+        additionalHeaders: true,
+        referrer: 'same-origin',
+        hsts: {
+          maxAge: 15552000,
+          includeSubDomains: true,
+          preload: true
+        },
+      }
+    ],
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
