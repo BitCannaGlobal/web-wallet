@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Welcome to BCNA</h1>
+    <h1>Welcome to BitCanna</h1>
     <h2>{{ network.description }}</h2>
     <div class="session-list">
       <AddressLiSession
@@ -19,7 +19,7 @@
         title="Keplr Browser Extension"
         route="/keplr"
       />
-      <AddressLiSession icon="usb" title="Ledger Nano" route="/ledger" />
+      <!-- <AddressLiSession icon="usb" title="Ledger Nano" route="/ledger" /> -->
       <template v-if="network.localSigning">
         <AddressLiSession
           icon="person"
@@ -38,13 +38,13 @@
           route="/recover"
         />
       </template>
-      <template v-if="network.swapEnabled">
+      <!-- <template v-if="network.swapEnabled">
         <AddressLiSession
           icon="compare_arrows"
           title="Swap"
           route="/signout-swap"
         />
-      </template>
+      </template> -->
       <a v-if="session" class="link" @click="backToWallet">Back to wallet</a>
       <a v-if="session" class="link" @click="signOut">Sign out</a>
       <a v-else class="link" @click="signOut">Continue without address</a>

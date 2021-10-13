@@ -21,8 +21,10 @@
       <div class="disclaimer">
         <p>
           Use this software at your own risk. Never enter your seed phrase into
-          untrusted software. Beware of phishing scams and spoof sites. Have a
-          nice day <span>✌️</span>
+          untrusted software. Beware of phishing scams and spoof sites. Bookmark
+          <a href="https://wallet.bitcanna.io">wallet.bitcanna.io</a>
+          to be safe! <br />
+          Have a nice day <span>✌🏻</span>
         </p>
       </div>
     </div>
@@ -60,7 +62,7 @@ export default {
 
 .session-layout-out {
   position: relative;
-  background: #0c1925 0% 0% no-repeat padding-box;
+  background: #090909 0% 0% no-repeat padding-box;
   opacity: 1;
 }
 
@@ -74,7 +76,7 @@ export default {
 .session-layout-out .bg-image {
   background: transparent url('../assets/images/bg_img.svg') 0% 0% no-repeat
     padding-box;
-  background-size: 1200px;
+  background-size: 800px;
   background-position: 20% 10%;
   opacity: 1;
   left: 50%;
@@ -94,14 +96,6 @@ export default {
   align-items: center;
   line-height: 1.5;
   color: var(--white);
-  background: transparent
-    linear-gradient(
-      299deg,
-      rgba(0, 0, 0, 0) 0%,
-      rgba(0, 0, 0, 0) 72%,
-      rgba(60, 193, 148, 0.3) 100%
-    )
-    0% 0% no-repeat padding-box;
   opacity: 1;
 }
 

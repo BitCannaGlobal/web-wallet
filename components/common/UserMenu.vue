@@ -56,7 +56,6 @@ h4 {
 }
 
 .container .button.secondary {
-  color: var(--gray-300);
   width: 100%;
 }
 
@@ -78,10 +77,12 @@ h4 {
 }
 
 .button.menu-button {
-  box-shadow: 0 0 2px 0 rgba(210, 210, 210, 0.1);
+  background: rgb(0, 183, 134);
+  box-shadow: 0 0 2px 0 rgb(0, 183, 134);
+  border: 1px;
 }
 
 .button.menu-button.secondary:hover:not(:disabled) {
-  background: rgba(210, 210, 210, 0.1);
+  background: rgb(10, 114, 85);
 }
 </style>

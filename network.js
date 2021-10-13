@@ -1,8 +1,8 @@
 export default {
   id: 'bitcanna-1',
-  name: 'BitCanna Testnet',
+  name: 'BitCanna',
   description:
-    'BitCanna is a decentralized network, powered by BFT consensus algorithms like Tendermint consensus.',
+    'BitCanna provides a decentralized payment network for the legal cannabis industry, by means of the BitCanna Coin (BCNA).',
   logo: `logo.svg`,
   website: 'https://www.bitcanna.io',
   apiURL: 'https://lcd.bitcanna.io',
@@ -38,5 +38,5 @@ export default {
   },
   icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
   swapEnabled: true,
-  localSigning: true, // this is only to be used as a developer tool - never deployed in production or for mainnet chains
+  localSigning: false, // this is only to be used as a developer tool - never deployed in production or for mainnet chains
 }
