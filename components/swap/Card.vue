@@ -4,19 +4,25 @@
     <CommonSteps :steps="steps" :active-step="step" />
     <CommonForm :submit="onSubmit" class="session-container">
       <div class="paragraph content">
-        It is mandatory to swap your BCNA coins from the old BitCanna blockchain
-        to the new blockchain.
+        It is mandatory to swap your BCNA coins from the
+        <span class="bold">old</span> BitCanna blockchain to the
+        <span class="bold">new</span> blockchain. Swapping your coins only
+        requires 2 steps.
       </div>
       <div class="paragraph content">
-        Swapping your coins only requires 3 steps. Before you start, make sure
-        you you you have your BitCanna wallet (old blockchain) open and are
-        ready to your coins.
+        Before you start make sure you have your BitCanna wallet (<span
+          class="bold"
+          >old</span
+        >
+        blockchain) open to send your coins.
       </div>
       <div class="paragraph step-content">
         <span class="bold"
-          >Step 1: Confirm that the address below is the right address to
-          receive your (new) BCNA coins.</span
+          >Step 1: Confirm that the address below is your new BCNA (Cosmos)
+          address</span
         >
+        (see top left corner in the web wallet) to receive your
+        <span class="bold">new</span> BCNA coins.
       </div>
       <div class="session-main bottom-indent">
         <CommonField
@@ -54,26 +60,26 @@
     <CommonSteps :steps="steps" :active-step="step" />
     <div class="session-container">
       <div class="paragraph content">
-        Below, you will find a unique deposit address generated on the
-        <span class="bold">old</span> BitCanna blockchain. To receive your
-        <span class="bold">new</span> BCNA coins, you must send your
-        <span class="bold">old</span> BCNA coins to this unique deposit address.
+        Below, you’ll find a unique deposit address generated on the
+        <span class="bold">old</span> BitCanna blockchain.
       </div>
       <div class="paragraph content">
-        <ul>
-          <li>• You can perform multiple transactions if you wish</li>
-          <li>
-            • You will receive the exact same amount of coins on the address
-            confirmed in Step 1
-          </li>
-        </ul>
+        To receive your new BCNA coins, you must send your
+        <span class="bold">old</span> BCNA coins to this unique
+        <span class="bold">(old)</span> deposit address.
+      </div>
+      <div class="paragraph content">
+        You can perform multiple transactions if you wish. You will receive the
+        same amount (1:1) of coins on the address which you confirmed in Step 1
       </div>
       <div class="paragraph step-content">
         <span class="bold"
           >Step 2: Send your old BCNA coins to the unique deposit address
           below.</span
         ><br />
-        Once you have sent your coins, click the “Check TX” button below.
+        Once you have sent your coins, you’ll receive the
+        <span class="bold">new</span> BCNA coins in the web wallet
+        <span class="bold">within 10 minutes</span>.
       </div>
       <div class="copyable-bitcoin-address">
         <CommonField
@@ -100,18 +106,32 @@
           <div class="inner">Address Copied!</div>
         </div>
       </div>
+      <div class="paragraph content">
+        Mobile wallet users can scan the QR-code to avoid copying the deposit
+        address to send their coins.
+      </div>
+      <div class="qr-code-box">
+        <qrcode-vue :value="bitcoinAddress" size="150" level="L"></qrcode-vue>
+      </div>
+
+      <div class="paragraph content">
+        Click the “View address” button to track if your coins have been
+        received on your <span class="bold">new</span> BCNA address.
+      </div>
 
       <div class="paragraph content support">
-        If you still haven’t received your coins, send your new Cosmos address
-        and your transaction hash to
-        <a href="mailto:support@bitcanna.io">support@bitcanna.io</a>.
+        Haven’t received anything after 10 minutes? Contact us at
+        <a href="mailto:support@bitcanna.io">support@bitcanna.io</a>; make sure
+        to provide your new BCNA address, and/or your transaction hash. (You can
+        copy the address by clicking on the address in the top left corner of
+        your web wallet)
       </div>
 
       <div class="session-footer second-step">
         <CommonButton value="Back" type="secondary" @click.native="onBack" />
         <CommonButton
-          :href="network.bitcannaExplorerURL + '/address/' + bitcoinAddress"
-          value="Check TX"
+          :href="network.explorerURL + '/accounts/' + cosmosAddress"
+          value="View address"
           :link="true"
         />
       </div>
@@ -122,6 +142,7 @@
 <script>
 import { mapState } from 'vuex'
 import { required, minLength } from 'vuelidate/lib/validators'
+import QrcodeVue from 'qrcode.vue'
 import network from '~/network'
 import { getExchangeWallet } from '~/common/exchange'
 
@@ -142,6 +163,10 @@ export default {
   }),
   computed: {
     ...mapState(['session']),
+  },
+  // eslint-disable-next-line vue/order-in-components
+  components: {
+    QrcodeVue,
   },
   created() {
     if (this.session) {
@@ -170,7 +195,9 @@ export default {
       }
 
       this.loading = false
-      this.step = `Step 2`
+      if (this.requestError === false) {
+        this.step = `Step 2`
+      }
     },
     onCopy() {
       this.copySuccess = true
@@ -254,5 +281,11 @@ export default {
 .copy-bitcoin-address-tooltip.active {
   opacity: 1;
   right: 0;
+}
+
+.qr-code-box {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
 }
 </style>

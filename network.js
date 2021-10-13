@@ -2,14 +2,15 @@ export default {
   id: 'bitcanna-1',
   name: 'BitCanna',
   description:
-    'BitCanna provides a decentralized payment network for the legal cannabis industry, by means of the BitCanna Coin (BCNA).',
+    'BitCanna is building a decentralized payment, supply chain and trust network built for the legal Cannabis industry',
   logo: `logo.svg`,
   website: 'https://www.bitcanna.io',
+  // apiURL: 'http://localhost:8010/proxy',
   apiURL: 'https://lcd.bitcanna.io',
-  rpcURL: 'https://rpc.bitcanna.io',
+  rpcURL: 'httsp://rpc.bitcanna.io',
   explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
-  exchangeApiUrl: 'https://bcna-payment.dmosrv.com',
+  exchangeApiUrl: 'https://swap.bitcanna.io',
   // minBlockHeight: 5200792, // actually 5200791, but it has the wrong block time.
   stakingDenom: 'BCNA',
   coinLookup: [
