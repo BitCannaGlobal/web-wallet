@@ -62,7 +62,7 @@ export default {
 
 .session-layout-out {
   position: relative;
-  background: #090909 0% 0% no-repeat padding-box;
+  background: #0c1925 0% 0% no-repeat padding-box;
   opacity: 1;
 }
 
@@ -76,7 +76,7 @@ export default {
 .session-layout-out .bg-image {
   background: transparent url('../assets/images/bg_img.svg') 0% 0% no-repeat
     padding-box;
-  background-size: 800px;
+  background-size: 1200px;
   background-position: 20% 10%;
   opacity: 1;
   left: 50%;
@@ -96,6 +96,14 @@ export default {
   align-items: center;
   line-height: 1.5;
   color: var(--white);
+  background: transparent
+    linear-gradient(
+      299deg,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0) 72%,
+      rgba(60, 193, 148, 0.3) 100%
+    )
+    0% 0% no-repeat padding-box;
   opacity: 1;
 }
 
