@@ -52,7 +52,7 @@ export default {
   data: () => ({
     sort: {
       property: `votingPower`,
-      order: `desc`,
+      order: `asc`, // default: desc
     },
     stakingDenom: network.stakingDenom,
   }),
