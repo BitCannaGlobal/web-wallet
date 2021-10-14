@@ -50,12 +50,13 @@
           :msg="requestError"
         />
       </div>
-      <div class="paragraph content">
+      <div class="paragraph content confirmation">
         <br />
         By confirming your address and clicking the "Confirm" button, you
         expressly warrant to us that you have read our token swap
         <a
           href="https://www.bitcanna.io/wp-content/uploads/2021/10/BitCanna-Coin-Swap-TC-13.10.21.pdf"
+          target="_blank"
           >terms & conditions</a
         >, that you understand its contents and that you agree with the
         applicability thereof on the token swap.
@@ -301,5 +302,10 @@ export default {
 
 .first-step {
   padding-top: 0 !important;
+}
+
+.confirmation {
+  font-size: 14px;
+  font-style: italic;
 }
 </style>
