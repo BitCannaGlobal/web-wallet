@@ -55,7 +55,7 @@
         By confirming your address and clicking the "Confirm" button, you
         expressly warrant to us that you have read our token swap
         <a
-          href="https://www.bitcanna.io/wp-content/uploads/2021/10/BitCanna-Coin-Swap-TC-13.10.21.pdf"
+          href="https://bit.ly/3vcaT66"
           target="_blank"
           >terms & conditions</a
         >, that you understand its contents and that you agree with the
