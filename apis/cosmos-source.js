@@ -490,13 +490,13 @@ export default class CosmosAPI {
       traceId = traceId.split(`/`)[1]
     }
     const result = await this.get(
-      `/ibc_transfer/v1beta1/denom_traces/${traceId}`
+      `/ibc/apps/transfer/v1/denom_traces/${traceId}`
     )
     const trace = result.denom_trace
     const chainTrace = await Promise.all(
       chunk(trace.path.split('/'), 2).map(async ([port, channel]) => {
         const result = await this.get(
-          `/ibc/channel/v1beta1/channels/${channel}/ports/${port}/client_state`
+          `/ibc/core/channel/v1/channels/${channel}/ports/${port}/client_state`
         )
         return result.identified_client_state.client_state.chain_id
       })
