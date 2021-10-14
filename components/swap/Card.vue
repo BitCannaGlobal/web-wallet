@@ -51,6 +51,7 @@
         />
       </div>
       <div class="paragraph content">
+        <br />
         By confirming your address and clicking the "Confirm" button, you
         expressly warrant to us that you have read our token swap
         <a
@@ -296,5 +297,9 @@ export default {
   display: flex;
   justify-content: center;
   margin-bottom: 10px;
+}
+
+.first-step {
+  padding-top: 0 !important;
 }
 </style>
