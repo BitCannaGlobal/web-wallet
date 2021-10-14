@@ -54,11 +54,8 @@
         <br />
         By confirming your address and clicking the "Confirm" button, you
         expressly warrant to us that you have read our token swap
-        <a
-          href="https://bit.ly/3vcaT66"
-          target="_blank"
-          >terms & conditions</a
-        >, that you understand its contents and that you agree with the
+        <a href="https://bit.ly/3vcaT66" target="_blank">terms & conditions</a>,
+        that you understand its contents and that you agree with the
         applicability thereof on the token swap.
       </div>
       <div class="session-footer first-step">
