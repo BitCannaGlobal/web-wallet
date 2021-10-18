@@ -57,7 +57,6 @@ export async function createSignBroadcast({
   ledgerTransport,
 }) {
   const feeData = getFees(messageType, feeDenom)
-  // await console.log(signingType)
 
   if (signingType !== 'extension') {
     const signer = await getSigner(
@@ -170,7 +169,7 @@ async function sendTxBcna(
   signingType
 ) {
   let wallet = ''
-  if (signingType !== 'keplr') {
+  if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
       prefix: network.addressPrefix,
     })
@@ -194,7 +193,7 @@ async function sendTxBcna(
 }
 async function rewardBcna(sign, addFrom, addTo, fee, signingType) {
   let wallet = ''
-  if (signingType !== 'keplr') {
+  if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
       prefix: network.addressPrefix,
     })
@@ -226,7 +225,7 @@ async function delegateTokensBcna(
   signingType
 ) {
   let wallet = ''
-  if (signingType !== 'keplr') {
+  if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
       prefix: network.addressPrefix,
     })
@@ -263,7 +262,7 @@ async function unDelegateTokensBcna(
   signingType
 ) {
   let wallet = ''
-  if (signingType !== 'keplr') {
+  if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
       prefix: network.addressPrefix,
     })
@@ -294,7 +293,7 @@ async function unDelegateTokensBcna(
 
 async function voteTxBcna(sign, fromDel, proposalId, vote, fee, signingType) {
   let wallet = ''
-  if (signingType !== 'keplr') {
+  if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
       prefix: network.addressPrefix,
     })
