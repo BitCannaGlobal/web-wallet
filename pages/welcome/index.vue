@@ -19,7 +19,7 @@
         title="Keplr Browser Extension"
         route="/keplr"
       />
-      <!-- <AddressLiSession icon="usb" title="Ledger Nano" route="/ledger" /> -->
+      <AddressLiSession icon="usb" title="Ledger Nano" route="/ledger" />
       <template v-if="network.localSigning">
         <AddressLiSession
           icon="person"
