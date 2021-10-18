@@ -2,12 +2,19 @@
   <div class="table-container">
     <div class="header-container">
       <h1>Your Balances</h1>
-      <CommonButton
-        id="claim-button"
-        :disabled="!readyToWithdraw || !balancesLoaded"
-        value="Claim Rewards"
-        @click.native="readyToWithdraw && openClaimModal()"
-      />
+      <div>
+        <CommonButton
+          id="claim-button"
+          :disabled="!readyToWithdraw || !balancesLoaded"
+          value="Claim Rewards"
+          @click.native="readyToWithdraw && openClaimModal()"
+        />
+        <CommonButton
+          id="refresh-button"
+          value="Refresh"
+          @click.native="refreshData()"
+        />
+      </div>
     </div>
     <CommonTableContainer
       :length="sortedBalances.length"
@@ -109,6 +116,18 @@ export default {
     openClaimModal() {
       this.$refs.ClaimModal.open()
     },
+    refreshData() {
+      this.$store.dispatch('data/refresh')
+      this.$toast.success('Data refresh!', {
+        position: 'bottom-right',
+        timeout: 2000,
+        closeOnClick: true,
+        showCloseButtonOnHover: false,
+        hideProgressBar: false,
+        closeButton: 'button',
+        icon: true,
+      })
+    },
   },
 }
 </script>
@@ -127,9 +146,15 @@ h1 {
   display: flex;
   align-items: center;
   flex-direction: row;
-  justify-content: space-between;
   padding: 0 0 2rem;
   width: 100%;
+}
+
+.header-container > div {
+  position: absolute;
+  right: 1%;
+  width: 18%;
+  justify-content: space-between;
 }
 
 .icon-button-container {

@@ -93,6 +93,8 @@ export default {
         },
       }
     ],
+    // https://github.com/Maronato/vue-toastification
+    "vue-toastification/nuxt",
   ],
 
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
