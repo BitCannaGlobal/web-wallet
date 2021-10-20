@@ -85,6 +85,7 @@ export default {
   }),
   computed: {
     ...mapState('data', ['proposals', 'proposalsLoaded']),
+    ...mapState(['session']),
     proposal() {
       if (this.proposals && this.proposals.length > 0) {
         return this.proposals.find(({ id }) => id === this.proposalId)
@@ -131,7 +132,22 @@ export default {
   },
   methods: {
     onVote() {
-      this.$refs.modalVote.open()
+      if (this.session.sessionType !== 'ledger') {
+        this.$refs.modalVote.open()
+      } else {
+        this.$toast.error(
+          'Voting through Ledger is currently not available in the web wallet.',
+          {
+            position: 'bottom-right',
+            timeout: 5000,
+            closeOnClick: true,
+            showCloseButtonOnHover: false,
+            hideProgressBar: false,
+            closeButton: 'button',
+            icon: true,
+          }
+        )
+      }
     },
     afterVoteOrDeposit() {
       this.$store.dispatch('data/getProposals')
