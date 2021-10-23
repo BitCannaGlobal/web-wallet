@@ -31,10 +31,15 @@
           </div>
         </div>
         <div class="action-buttons">
-          <CommonButton :value="`Stake`" @click.native="openStakeModal" />
+          <CommonButton :value="`Delegate`" @click.native="openStakeModal" />
           <CommonButton
             :disabled="!delegation"
-            :value="`Unstake`"
+            :value="`Redelegate`"
+            @click.native="openRestakeModal"
+          />
+          <CommonButton
+            :disabled="!delegation"
+            :value="`Undelegate`"
             type="secondary"
             @click.native="openUnstakeModal"
           />
@@ -137,6 +142,11 @@
       :source-validator="validator"
       :is-unnomination="true"
     />
+    <LazyModalRestake
+      ref="RestakeModal"
+      :source-validator="validator"
+      :is-unnomination="true"
+    />
   </div>
 </template>
 
@@ -210,6 +220,10 @@ export default {
     /* istanbul ignore next */
     openUnstakeModal() {
       this.$refs.UnstakeModal.open()
+    },
+    /* istanbul ignore next */
+    openRestakeModal() {
+      this.$refs.RestakeModal.open()
     },
     /* istanbul ignore next */
     isBlankField(field, alternateFilter) {
@@ -307,12 +321,7 @@ h5 {
 }
 
 .action-buttons {
-  display: flex;
   align-items: center;
-}
-
-.action-buttons button:first-child {
-  margin-right: 0.5rem;
 }
 
 .status-container {

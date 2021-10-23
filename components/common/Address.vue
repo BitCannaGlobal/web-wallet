@@ -5,7 +5,10 @@
       v-clipboard:success="() => onCopy()"
       class="address"
     >
-      <span>{{ address | formatAddress }}</span>
+      <span>
+        {{ address | formatAddress }}
+        <i class="material-icons notranslate">content_copy</i>
+      </span>
     </div>
     <div :class="{ active: copySuccess }" class="copy-tooltip hide">
       <div class="arrow"></div>

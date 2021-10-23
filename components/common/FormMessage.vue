@@ -43,6 +43,12 @@ export default {
     error() {
       let msg = ``
       switch (this.type) {
+        case `isValidator`:
+          msg = `in "To" is not a valid validator address`
+          break
+        case `validatorRequired`:
+          msg = `a validator address in "To"`
+          break
         case `alphaNum`:
           msg = `must contain only alphanumeric characters`
           break
