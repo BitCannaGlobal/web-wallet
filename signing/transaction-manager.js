@@ -68,6 +68,7 @@ export async function createSignBroadcast({
       chainId,
       ledgerTransport
     )
+    console.log(message)
     switch (messageType) {
       case 'SendTx':
         try {
@@ -111,6 +112,24 @@ export async function createSignBroadcast({
             signer,
             message.from[0],
             senderAddress,
+            finalAmout,
+            feeData,
+            signingType
+          )
+          return {
+            hash: getTx.transactionHash,
+          }
+        } catch (err) {
+          throw new Error(err)
+        }
+      case 'RestakeTx':
+        try {
+          const finalAmout = (message.amount.amount * 1000000).toString()
+          const getTx = await ReDelegateTokensBcna(
+            signer,
+            message.delegator[0],
+            message.from[0],
+            message.to[0],
             finalAmout,
             feeData,
             signingType
@@ -210,7 +229,7 @@ async function rewardBcna(sign, addFrom, addTo, fee, signingType) {
     addFrom,
     addTo,
     fee,
-    'Reward from lunie!'
+    'Reward from WebWallet'
   )
   assertIsBroadcastTxSuccess(result)
   return result
@@ -286,6 +305,45 @@ async function unDelegateTokensBcna(
     amount,
     fee,
     'Undelegate from Bitcanna WebWallet'
+  )
+  assertIsBroadcastTxSuccess(result)
+  return result
+}
+async function ReDelegateTokensBcna(
+  sign,
+  delegator,
+  valFrom,
+  valTo,
+  amountBcna,
+  fee,
+  signingType
+) {
+  let wallet = ''
+  if (signingType === 'local') {
+    wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
+      prefix: network.addressPrefix,
+    })
+  } else {
+    wallet = sign
+  }
+
+  const client = await SigningStargateClient.connectWithSigner(
+    network.rpcURL,
+    wallet
+  )
+
+  const amount = {
+    denom: 'ubcna',
+    amount: amountBcna,
+  }
+  // delegatorAddress, validatorAddress, validatorDstAddress, amount, fee, memo = ""
+  const result = await client.reDelegateTokens(
+    delegator,
+    valFrom,
+    valTo,
+    amount,
+    fee,
+    'Redelegate from Bitcanna WebWallet'
   )
   assertIsBroadcastTxSuccess(result)
   return result
