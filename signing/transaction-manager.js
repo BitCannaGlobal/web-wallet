@@ -4,6 +4,7 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing'
 import {
   assertIsBroadcastTxSuccess,
   SigningStargateClient,
+  defaultRegistryTypes,
 } from '@cosmjs/stargate'
 import BigNumber from 'bignumber.js'
 import { getSigner } from './signer'
@@ -68,7 +69,7 @@ export async function createSignBroadcast({
       chainId,
       ledgerTransport
     )
-    console.log(message)
+    // console.log(message)
     switch (messageType) {
       case 'SendTx':
         try {
@@ -142,11 +143,10 @@ export async function createSignBroadcast({
         }
       case 'ClaimRewardsTx':
         try {
-          // TODO foreach validator to reward
           const getTx = await rewardBcna(
             signer,
             senderAddress,
-            message.from[0],
+            message.from,
             feeData,
             signingType
           )
@@ -225,12 +225,19 @@ async function rewardBcna(sign, addFrom, addTo, fee, signingType) {
     wallet
   )
 
-  const result = await client.withdrawRewards(
-    addFrom,
-    addTo,
-    fee,
-    'Reward from WebWallet'
-  )
+  const WithdrawDelegatorReward = defaultRegistryTypes[3][1] // MsgWithdrawDelegatorReward
+  // console.log(WithdrawDelegatorReward)
+  const copieDelegator = []
+  addTo.forEach(function (item) {
+    copieDelegator.push({
+      typeUrl: '/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward',
+      value: WithdrawDelegatorReward.fromPartial({
+        delegatorAddress: addFrom,
+        validatorAddress: item,
+      }),
+    })
+  })
+  const result = client.signAndBroadcast(addFrom, copieDelegator, fee, '')
   assertIsBroadcastTxSuccess(result)
   return result
 }
@@ -332,19 +339,21 @@ async function ReDelegateTokensBcna(
     wallet
   )
 
-  const amount = {
+  const amountFinal = {
     denom: 'ubcna',
     amount: amountBcna,
   }
-  // delegatorAddress, validatorAddress, validatorDstAddress, amount, fee, memo = ""
-  const result = await client.reDelegateTokens(
-    delegator,
-    valFrom,
-    valTo,
-    amount,
-    fee,
-    'Redelegate from Bitcanna WebWallet'
-  )
+  const MsgBeginRedelegate = defaultRegistryTypes[8][1] // MsgBeginRedelegate
+  const reDelegateMsg = {
+    typeUrl: '/cosmos.staking.v1beta1.MsgBeginRedelegate',
+    value: MsgBeginRedelegate.fromPartial({
+      delegatorAddress: delegator,
+      validatorSrcAddress: valFrom,
+      validatorDstAddress: valTo,
+      amount: amountFinal,
+    }),
+  }
+  const result = client.signAndBroadcast(delegator, [reDelegateMsg], fee, '')
   assertIsBroadcastTxSuccess(result)
   return result
 }
