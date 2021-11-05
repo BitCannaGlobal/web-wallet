@@ -174,7 +174,6 @@ export default {
   .app-header > .container {
     position: fixed;
     height: 100%;
-    overflow: auto;
     background: var(--app-nav);
   }
 }

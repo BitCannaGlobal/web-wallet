@@ -153,7 +153,7 @@ h1 {
 .header-container > div {
   position: absolute;
   right: 1%;
-  width: 18%;
+  width: 12%;
   justify-content: space-between;
 }
 

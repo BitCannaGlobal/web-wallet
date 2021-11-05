@@ -1,6 +1,6 @@
 <template>
   <div v-if="address" class="address">
-    <CommonAddress class="menu-address" :address="address || ''" />
+    <CommonAddressHover class="menu-address" :address="address || ''" />
     <!-- <div
       v-if="!session.isMobile && session.sessionType === 'ledger'"
       class="show-on-ledger-container"
