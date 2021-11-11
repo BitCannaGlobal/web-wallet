@@ -23,7 +23,33 @@
         </div>
       </div>
     </div>
-
+    <div class="data-row">
+      <div>
+        <h4 class="icon">
+          <img src="icon/height.png" />
+          &ensp; Height
+        </h4>
+        <p class="text-block">
+          {{ validatorInfoPage.height }}
+        </p>
+      </div>
+      <div>
+        <h4 class="icon">
+          <img src="icon/validator.png" />
+          &ensp; Validators
+        </h4>
+        <p class="text-block">{{ countValidators }}</p>
+      </div>
+      <div>
+        <h4 class="icon">
+          <img src="icon/tokens.png" />
+          &ensp; Bonded coins
+        </h4>
+        <p class="text-block">
+          {{ finalBonded | bigFigureOrShortDecimals }}
+        </p>
+      </div>
+    </div>
     <StakingTableValidators
       class="table-validators"
       :validators="filteredValidators"
@@ -37,9 +63,13 @@
 
 <script>
 import { mapState } from 'vuex'
+import { bigFigureOrShortDecimals } from '~/common/numbers'
 
 export default {
   name: `PageValidators`,
+  filters: {
+    bigFigureOrShortDecimals,
+  },
   data: () => ({
     searchTerm: '',
     activeOnly: true,
@@ -52,6 +82,7 @@ export default {
       'delegations',
       'delegationsLoaded',
       'rewards',
+      'validatorInfoPage',
     ]),
     filteredValidators() {
       if (this.searchTerm) {
@@ -74,6 +105,14 @@ export default {
         return this.validators.filter(({ status }) => status === 'ACTIVE')
       }
     },
+    finalBonded() {
+      const boundedRound = this.validatorInfoPage.bonded_tokens / 1000000
+      return boundedRound.toFixed(0)
+    },
+    countValidators() {
+      const countVal = Object.keys(this.sortedValidators).length
+      return countVal
+    },
   },
   methods: {
     defaultSelectorsController(selector) {
@@ -89,9 +128,46 @@ export default {
     },
   },
 }
+// document.querySelector('#img').style.transform = 'rotate(90deg)'
 </script>
 
 <style scoped>
+.icon {
+  display: inline-flex;
+  align-self: center;
+}
+
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1.5rem 0;
+}
+
+.data-row div {
+  font-size: 22px;
+  color: var(--txt);
+  padding: 1rem 1.5rem;
+  width: 100%;
+  white-space: nowrap;
+  border-radius: var(--border-radius);
+  background: var(--gray-1100);
+}
+
+.text-block {
+  text-align: right;
+}
+
+.data-row > div {
+  margin-right: 1rem;
+}
+.data-row div:last-child {
+  margin-right: 0;
+}
+.proposals .card {
+  margin: 0;
+}
+
 .table-validators {
   margin: 1.5rem;
 }

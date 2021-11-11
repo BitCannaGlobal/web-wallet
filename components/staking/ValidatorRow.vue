@@ -51,6 +51,12 @@
       <td class="cell">
         {{ validator.votingPower | bigFigureOrPercent }}
       </td>
+      <td class="cell">
+        {{ validator.uptimePercentage | bigFigureOrPercent }}
+      </td>
+      <td class="cell">
+        {{ validator.commission | bigFigureOrPercent }}
+      </td>
     </template>
     <template v-else>
       <td>

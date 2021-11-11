@@ -86,6 +86,14 @@ export default {
           title: `Voting Power`,
           value: `votingPower`,
         },
+        {
+          title: `Uptime`,
+          value: `uptime`,
+        },
+        {
+          title: `Commission`,
+          value: `commission`,
+        },
       ]
     },
   },
