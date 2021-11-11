@@ -105,7 +105,7 @@
       <section class="row">
         <div>
           <h4>Uptime</h4>
-          <span>{{ isBlankField(validator.uptimePercentage, percent) }}</span>
+          <span>{{ checkValidatorUptime() }}</span>
         </div>
         <div>
           <h4>Validator Since</h4>
@@ -231,6 +231,14 @@ export default {
     percent,
     fromNow,
     noBlanks,
+    checkValidatorUptime() {
+      console.log(this.validator.status)
+      if (this.validator.status === 'INACTIVE') {
+        return '0%'
+      } else {
+        return '100%'
+      }
+    },
     /* istanbul ignore next */
     openStakeModal() {
       this.$refs.StakeModal.open()

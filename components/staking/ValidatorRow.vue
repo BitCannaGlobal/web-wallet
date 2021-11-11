@@ -52,7 +52,8 @@
         {{ validator.votingPower | bigFigureOrPercent }}
       </td>
       <td class="cell">
-        {{ validator.uptimePercentage | bigFigureOrPercent }}
+        <!-- {{ validator.uptimePercentage | bigFigureOrPercent }} -->
+        {{ checkValidatorUptime() }}
       </td>
       <td class="cell">
         {{ validator.commission | bigFigureOrPercent }}
@@ -117,6 +118,14 @@ export default {
         (reward) => reward.denom === this.stakingDenom
       )
       return stakingDenomRewards.length > 0 ? stakingDenomRewards[0].amount : 0
+    },
+    checkValidatorUptime() {
+      console.log(this.validator.status)
+      if (this.validator.status === 'INACTIVE') {
+        return '0%'
+      } else {
+        return '100%'
+      }
     },
   },
 }
