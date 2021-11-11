@@ -39,11 +39,6 @@
           />
           <CommonButton
             :disabled="!delegation"
-            :value="`Reinvest`"
-            @click.native="openReinvestModal"
-          />
-          <CommonButton
-            :disabled="!delegation"
             :value="`Undelegate`"
             type="secondary"
             @click.native="openUnstakeModal"
