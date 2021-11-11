@@ -39,6 +39,11 @@
           />
           <CommonButton
             :disabled="!delegation"
+            :value="`Reinvest`"
+            @click.native="openReinvestModal"
+          />
+          <CommonButton
+            :disabled="!delegation"
             :value="`Undelegate`"
             type="secondary"
             @click.native="openUnstakeModal"
@@ -77,8 +82,9 @@
         <div>
           <h4>Rewards</h4>
           <span>
-            {{ validator.expectedReturns | percent }}
-            <span class="note">(Approx. Annualized)</span>
+            {{ validatorApr.toFixed(2) }}%
+            <!-- {{ validator.expectedReturns | percent }} -->
+            <span class="note">(APR)</span>
           </span>
         </div>
         <div>
@@ -147,6 +153,12 @@
       :source-validator="validator"
       :is-unnomination="true"
     />
+    <LazyModalReinvest
+      ref="ReinvestModal"
+      :address="session.address"
+      :rewards="rewards"
+      :balances="balances"
+    />
   </div>
 </template>
 
@@ -171,11 +183,14 @@ export default {
     validatorDelegations: [],
   }),
   computed: {
+    ...mapState([`session`]),
     ...mapState('data', [
+      'balances',
       'validators',
       'delegations',
       'rewards',
       'validatorsLoaded',
+      'bcnaApr',
     ]),
     validator() {
       return this.validators.find(
@@ -191,9 +206,17 @@ export default {
       )
     },
     rewardsForValidator() {
+      console.log(this.rewards)
       return this.rewards.filter(
         ({ validator: { operatorAddress } }) => operatorAddress === this.address
       )
+    },
+    validatorApr() {
+      // const commission = this.validator.commission * 100 // this.validator.commission = 0.1
+      // const finalApr = this.bcnaApr - commission
+      const rewardFactor = 1 - this.validator.commission
+      const finalApr = this.bcnaApr * rewardFactor
+      return finalApr
     },
   },
   watch: {
@@ -224,6 +247,10 @@ export default {
     /* istanbul ignore next */
     openRestakeModal() {
       this.$refs.RestakeModal.open()
+    },
+    /* istanbul ignore next */
+    openReinvestModal() {
+      this.$refs.ReinvestModal.open()
     },
     /* istanbul ignore next */
     isBlankField(field, alternateFilter) {
