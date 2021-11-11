@@ -120,7 +120,6 @@ export default {
       return stakingDenomRewards.length > 0 ? stakingDenomRewards[0].amount : 0
     },
     checkValidatorUptime() {
-      console.log(this.validator.status)
       if (this.validator.status === 'INACTIVE') {
         return '0%'
       } else {
