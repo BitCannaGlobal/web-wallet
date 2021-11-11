@@ -79,6 +79,7 @@ export const actions = {
       dispatch('getProposals'),
       dispatch('getGovernanceOverview'),
       dispatch('getValidatorInfoPage'),
+      dispatch('getBcnaApr'),
     ]
     await Promise.all(calls)
   },

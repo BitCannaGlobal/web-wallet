@@ -148,12 +148,6 @@
       :source-validator="validator"
       :is-unnomination="true"
     />
-    <LazyModalReinvest
-      ref="ReinvestModal"
-      :address="session.address"
-      :rewards="rewards"
-      :balances="balances"
-    />
   </div>
 </template>
 
