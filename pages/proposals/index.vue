@@ -21,15 +21,21 @@
       <h3>Stats</h3>
       <div class="data-row">
         <div>
-          <h4>Community Pool</h4>
-          <p>
+          <h4 class="icon">
+            <img src="icon/pool.png" />
+            &ensp; Community Pool
+          </h4>
+          <p class="text-block">
             {{ governanceOverview.treasurySize }}
             {{ network.stakingDenom }}
           </p>
         </div>
         <div>
-          <h4>Total Staked</h4>
-          <p>
+          <h4 class="icon">
+            <img src="icon/tokens.png" />
+            &ensp; Bonded coins
+          </h4>
+          <p class="text-block">
             {{ governanceOverview.totalStakedAssets }}
             {{ network.stakingDenom }}
           </p>
@@ -68,6 +74,15 @@ export default {
 }
 </script>
 <style scoped>
+.icon {
+  display: inline-flex;
+  align-self: center;
+}
+
+.text-block {
+  text-align: right;
+}
+
 .proposals {
   padding: 0 1.5rem 3rem;
 }
@@ -77,11 +92,6 @@ h3 {
   color: var(--white);
   font-weight: 600;
   padding: 3rem 0 1.5rem;
-}
-
-h4 {
-  font-size: var(--text-sm);
-  color: var(--dim);
 }
 
 .data-row {
