@@ -25,6 +25,11 @@ export const state = () => ({
   transactionsLoading: false,
   moreTransactionsAvailable: true,
   api: undefined,
+  validatorInfoPage: [],
+  bcnaValue: [],
+  bcnaValueLoaded: false,
+  bcnaApr: [],
+  bcnaAprLoaded: false,
 })
 
 export const mutations = {
@@ -73,6 +78,7 @@ export const actions = {
       dispatch('refreshSession'),
       dispatch('getProposals'),
       dispatch('getGovernanceOverview'),
+      dispatch('getValidatorInfoPage'),
     ]
     await Promise.all(calls)
   },
@@ -88,6 +94,21 @@ export const actions = {
         dispatch('getTransactions', { address }),
         dispatch('getDelegations', address),
         dispatch('getUndelegations', address)
+      )
+    }
+    await Promise.all(calls)
+  },
+  async refreshPortfolio({ dispatch }) {
+    const calls = []
+    const session = this.$cookies.get('lunie-session')
+    const currency = this.$cookies.get('currency') || 'USD'
+    if (session) {
+      const address = session.address
+      calls.push(
+        dispatch('getBalances', { address, currency }),
+        dispatch('getRewards', { address, currency }),
+        // dispatch('getBcnaValue'),
+        dispatch('getBcnaApr')
       )
     }
     await Promise.all(calls)
@@ -123,6 +144,54 @@ export const actions = {
         { root: true }
       )
     }
+  },
+  async getBcnaApr({ commit, state: { api } }) {
+    try {
+      const apr = await api.getBcnaApr()
+      commit('setBcnaApr', apr.data.result.bitcanna.roi)
+      commit('setBcnaAprLoaded', true)
+    } catch (err) {
+      commit(
+        'notifications/add',
+        {
+          type: 'danger',
+          message: 'Getting APR failed:' + err.message,
+        },
+        { root: true }
+      )
+    }
+  },
+  async getBcnaValue({ commit, state: { api } }) {
+    try {
+      const bcnaValue = await api.getBcnaValue()
+      commit('setBcnaValue', bcnaValue.data.bitcanna.usd)
+      commit('setBcnaValueLoaded', true)
+    } catch (err) {
+      commit(
+        'notifications/add',
+        {
+          type: 'danger',
+          message: 'Getting ConvertBcna failed:' + err.message,
+        },
+        { root: true }
+      )
+    }
+  },
+  async getValidatorInfoPage({ commit, dispatch, state: { api } }) {
+    try {
+      const validators = await api.getValidatorInfoPage()
+      commit('setValidatorInfoPage', validators.data.staking_pool[0])
+    } catch (err) {
+      commit(
+        'notifications/add',
+        {
+          type: 'danger',
+          message: 'Getting validators failed:' + err.message,
+        },
+        { root: true }
+      )
+    }
+    dispatch('updateValidatorImages')
   },
   async getValidators({ commit, dispatch, state: { api } }) {
     try {

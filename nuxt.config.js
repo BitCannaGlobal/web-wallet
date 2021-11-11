@@ -89,14 +89,31 @@ export default {
         hsts: {
           maxAge: 15552000,
           includeSubDomains: true,
-          preload: true
+          preload: true,
         },
-      }
+      },
     ],
     // https://github.com/Maronato/vue-toastification
-    "vue-toastification/nuxt",
+    [
+      'vue-toastification/nuxt',
+      {
+        timeout: 1000,
+        draggable: false,
+        filterBeforeCreate: (toast, toasts) => {
+          if (toasts.filter((t) => t.type === toast.type).length !== 0) {
+            // Returning false discards the toast
+            return false
+          }
+          // You can modify the toast if you want
+          return toast
+        },
+      },
+    ],
   ],
-
+  toast: {
+    // Use your own CSS file
+    cssFile: '@/styles/toast.css',
+  },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {
     progress: false,

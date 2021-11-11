@@ -192,6 +192,21 @@ export default class CosmosAPI {
     ).amount
   }
 
+  async getValidatorInfoPage() {
+    return await this.axios(`https://graphql.bitcanna.io/api/rest/supply/bonded`)
+  }
+
+  async getBcnaValue() {
+    return await this.axios(`https://payment.bitcanna.io/api/price/usd`)
+  }
+
+  async getBcnaInflation() {
+    return await this.axios(`https://graphql.bitcanna.io/api/rest/supply/inflation`)
+  }
+  async getBcnaApr() {
+    return await this.axios(`https://api.stakely.io/stats`)
+  }
+
   async getValidator(address) {
     await this.dataReady
     return this.validators[address]

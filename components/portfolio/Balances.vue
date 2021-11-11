@@ -1,5 +1,6 @@
 <template>
   <div class="table-container">
+    <CommonStatsmain :balance="balances" />
     <div class="header-container">
       <h1>Your Balances</h1>
       <div>
@@ -118,8 +119,8 @@ export default {
     },
     refreshData() {
       this.$store.dispatch('data/refresh')
-      this.$toast.success('Data refresh!', {
-        position: 'bottom-right',
+      this.$toast.success('Data has been refreshed!', {
+        position: 'top-right',
         timeout: 2000,
         closeOnClick: true,
         showCloseButtonOnHover: false,
@@ -152,8 +153,7 @@ h1 {
 
 .header-container > div {
   position: absolute;
-  right: 1%;
-  width: 12%;
+  right: calc(1% + 10px);
   justify-content: space-between;
 }
 
