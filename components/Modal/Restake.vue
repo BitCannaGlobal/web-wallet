@@ -143,18 +143,22 @@ export default {
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
-      return {
-        type: lunieMessageTypes.RESTAKE,
-        from:
-          this.sourceValidator && this.sourceValidator.operatorAddress
-            ? [this.sourceValidator.operatorAddress]
-            : null,
-        amount: {
-          amount: this.amount,
-          denom: this.stakingDenom,
-        },
-        to: [this.to],
-        delegator: [this.session.address],
+      if (this.session) {
+        return {
+          type: lunieMessageTypes.RESTAKE,
+          from:
+            this.sourceValidator && this.sourceValidator.operatorAddress
+              ? [this.sourceValidator.operatorAddress]
+              : null,
+          amount: {
+            amount: this.amount,
+            denom: this.stakingDenom,
+          },
+          to: [this.to],
+          delegator: [this.session.address],
+        }
+      } else {
+        return {}
       }
     },
     notifyMessage() {

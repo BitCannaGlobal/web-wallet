@@ -31,7 +31,11 @@
           </div>
         </div>
         <div class="action-buttons">
-          <CommonButton :value="`Delegate`" @click.native="openStakeModal" />
+          <CommonButton
+            :disabled="!isLogged"
+            :value="`Delegate`"
+            @click.native="openStakeModal"
+          />
           <CommonButton
             :disabled="!delegation"
             :value="`Redelegate`"
@@ -193,6 +197,13 @@ export default {
       return this.delegations.find(
         ({ validator: { operatorAddress } }) => operatorAddress === this.address
       )
+    },
+    isLogged() {
+      if (this.session) {
+        return true
+      } else {
+        return false
+      }
     },
     rewardsForValidator() {
       console.log(this.rewards)
