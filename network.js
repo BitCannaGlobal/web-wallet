@@ -10,6 +10,7 @@ export default {
   explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
   exchangeApiUrl: 'https://swap.bitcanna.io',
+  osmosAppUrl: 'https://app.osmosis.zone',
   // minBlockHeight: 5200792, // actually 5200791, but it has the wrong block time.
   stakingDenom: 'BCNA',
   coinLookup: [

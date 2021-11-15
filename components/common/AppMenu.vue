@@ -14,6 +14,16 @@
       </nuxt-link>
       <nuxt-link
         class="app-menu-item"
+        to="/earn"
+        exact="exact"
+        title="Earn"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">Earn</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </nuxt-link>
+      <nuxt-link
+        class="app-menu-item"
         to="/validators"
         exact="exact"
         title="Validators"
