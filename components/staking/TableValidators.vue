@@ -102,14 +102,6 @@ export default {
   },
   methods: {
     getDelegation({ operatorAddress }) {
-      /* const test = this.delegations.find(
-        ({ validator }) => validator.operatorAddress === operatorAddress
-      ) */
-      // console.log(this.delegations)
-      /* const test = this.delegations.find(
-        ({ validator }) => validator.operatorAddress === operatorAddress
-      ) */
-      // console.log(operatorAddress)
       return this.delegations.find(
         ({ validator }) => validator?.operatorAddress === operatorAddress
       )
