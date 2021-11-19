@@ -228,14 +228,14 @@ export default class CosmosAPI {
       // supply,
       // pool
     ] = await Promise.all([
-      this.query(`staking/validators?status=BOND_STATUS_BONDED`),
-      this.query(`staking/validators?status=BOND_STATUS_UNBONDED`),
+      this.query(`cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED`),
+      this.query(`cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDED`),
       // this.getAnnualProvision().catch(() => undefined),
       // this.getStakingSupply(),
       // this.query(`cosmos/staking/v1beta1/pool`)
     ])
 
-    const resultValidators = validators.result.concat( validatorsUnbonding.result)
+    const resultValidators = validators.validators.concat(validatorsUnbonding.validators)
 
     const tokensTotal = resultValidators.reduce(function(prev, cur) {
       return prev + parseInt(cur.tokens);
