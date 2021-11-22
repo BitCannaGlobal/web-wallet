@@ -65,9 +65,9 @@
           </td>
           <td class="cell">
             {{ bcnaApr | bigFigureOrShortDecimals }}% (excl. commission)
-            <nuxt-link to="/earn" @click.native="hi">
+            <!-- <nuxt-link to="/earn" @click.native="hi">
               <i class="material-icons">help</i>
-            </nuxt-link>
+            </nuxt-link> -->
           </td>
           <td class="cell">
             <nuxt-link to="/validators" class="li-session">
@@ -84,7 +84,7 @@
           </td>
           <td class="cell">
             {{ bcnaApr | bigFigureOrShortDecimals }}% (excl. commission)
-            <i class="material-icons">help</i>
+            <!-- <i class="material-icons">help</i> -->
           </td>
           <td class="cell">
             <CommonButton
@@ -142,7 +142,7 @@ export default {
     this.loadData()
   },
   methods: {
-    hi(e) {
+    /* hi(e) {
       const textHelp =
         'Need help?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.'
       this.$toast.info(textHelp, {
@@ -154,7 +154,7 @@ export default {
         closeButton: 'button',
         icon: true,
       })
-    },
+    }, */
     loadData() {
       this.$store.dispatch('data/refresh')
     },
