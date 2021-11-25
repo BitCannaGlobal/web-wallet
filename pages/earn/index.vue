@@ -1,6 +1,6 @@
 <template>
   <div class="swap2">
-    <h1>Earn</h1>
+    <h3>Earn</h3>
     <div class="swap-card2">
       <EarnCard></EarnCard>
     </div>
@@ -19,8 +19,7 @@ export default {
 
 <style>
 .swap2 {
-  line-height: 1.5;
-  padding: 3rem 1.5rem;
+  padding: 0 1.5rem 3rem;
 }
 
 .swap-card2 {
@@ -32,5 +31,11 @@ export default {
   position: relative;
   margin: 2rem 0;
   width: 100%;
+}
+.swap2 > h3 {
+  font-size: 24px;
+  color: var(--white);
+  font-weight: 600;
+  padding: 3rem 0 0;
 }
 </style>
