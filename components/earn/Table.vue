@@ -15,10 +15,12 @@
       <tbody>
         <tr>
           <td class="cell">BCNA/ATOM</td>
-          <td class="cell"><img src="icon/bcna-cosmos.png" /></td>
+          <td class="cell">
+            <img src="icon/BCNA-Atom.svg" />
+          </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData572 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">≈ 100% Annualised</td>
+          <td class="cell">142% + BONUS BCNA</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/572'"
@@ -28,11 +30,13 @@
           </td>
         </tr>
         <tr>
-          <td class="cell">BCNA/OSMOS</td>
-          <td class="cell"><img src="icon/bcna-osmos.png" /></td>
+          <td class="cell">BCNA/OSMO</td>
+          <td class="cell">
+            <img src="icon/BCNA-Osmo.svg" width="80" height="45" />
+          </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData571 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">≈ 100% Annualised</td>
+          <td class="cell">163% + BONUS BCNA</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/571'"
@@ -43,6 +47,7 @@
         </tr>
       </tbody>
     </table>
+    <br />
     <h1>Stake</h1>
     <table class="tableearn">
       <thead>
@@ -57,8 +62,10 @@
       </thead>
       <tbody>
         <tr>
-          <td class="cell">Bitcanna delegate</td>
-          <td class="cell"><img src="icon/bcna.png" /></td>
+          <td class="cell">BitCanna Delegate</td>
+          <td class="cell">
+            <img src="icon/BCNA-icon.svg" width="45" height="45" />
+          </td>
           <td class="cell">14 days</td>
           <td class="cell">
             ${{ returnBcnaBonded | bigFigureOrShortDecimals }}
@@ -76,8 +83,10 @@
           </td>
         </tr>
         <tr>
-          <td class="cell">Bitcanna validate</td>
-          <td class="cell"><img src="icon/bcna.png" /></td>
+          <td class="cell">BitCanna Validate</td>
+          <td class="cell">
+            <img src="icon/BCNA-icon.svg" width="45" height="45" />
+          </td>
           <td class="cell">NA</td>
           <td class="cell">
             ${{ returnBcnaBonded | bigFigureOrShortDecimals }}
@@ -168,6 +177,13 @@ export default {
   border-radius: var(--border-radius);
   background: var(--gray-1100);
 }
+.container2 > h1 {
+  font-size: 24px;
+  color: #fff;
+  color: var(--white);
+  font-weight: 600;
+  padding-bottom: 1rem;
+}
 .icon {
   display: inline-flex;
   align-self: center;
@@ -192,7 +208,7 @@ export default {
   vertical-align: middle;
   border: solid 1px #000;
   border-style: solid none;
-  padding: 25px;
+  padding: 15px;
   background-color: black;
 }
 .tableearn td:first-child {
