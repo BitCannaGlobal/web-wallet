@@ -133,7 +133,13 @@ export const actions = {
   async getBalances({ commit, state: { api } }, { address, currency }) {
     try {
       const balances = await api.getBalances(address, currency, network)
-      commit('setBalances', balances)
+      const returnBcnaBalance = []
+      balances.forEach(function (item) {
+        if (item.id === 'BCNA') {
+          returnBcnaBalance.push(item)
+        }
+      })
+      commit('setBalances', returnBcnaBalance)
       commit('setBalancesLoaded', true)
     } catch (err) {
       commit(
@@ -149,7 +155,7 @@ export const actions = {
   async getBcnaApr({ commit, state: { api } }) {
     try {
       const apr = await api.getBcnaApr()
-      commit('setBcnaApr', apr.data.result.bitcanna.roi)
+      commit('setBcnaApr', Number(apr.data.cmc_supply_apr[0].apr).toFixed(1))
       commit('setBcnaAprLoaded', true)
     } catch (err) {
       commit(

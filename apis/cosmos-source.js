@@ -204,7 +204,8 @@ export default class CosmosAPI {
     return await this.axios(`https://graphql.bitcanna.io/api/rest/supply/inflation`)
   }
   async getBcnaApr() {
-    return await this.axios(`https://api.stakely.io/stats`)
+    // return await this.axios(`https://api.stakely.io/stats`)
+    return await this.axios(`https://graphql.bitcanna.io/api/rest/price/apr`)
   }
 
   async getValidator(address) {
@@ -220,6 +221,29 @@ export default class CosmosAPI {
     const res = await this.query(`cosmos/bank/v1beta1/supply`)
     return BigNumber(res.supply[0].amount)
   }
+  /* async loadValidators() {
+    const [
+      validators,
+      validatorsUnbonding,
+      // annualProvision,
+      // supply,
+      // pool
+    ] = await Promise.all([
+      this.query(`cosmos/staking/v1beta1/validators?status=BOND_STATUS_BONDED`),
+      this.query(`cosmos/staking/v1beta1/validators?status=BOND_STATUS_UNBONDED`),
+      // this.getAnnualProvision().catch(() => undefined),
+      // this.getStakingSupply(),
+      // this.query(`cosmos/staking/v1beta1/pool`)
+    ])
+
+    const resultValidators = validators.validators.concat(validatorsUnbonding.validators)
+
+    const tokensTotal = resultValidators.reduce(function(prev, cur) {
+      return prev + parseInt(cur.tokens);
+    }, 0);
+
+    return resultValidators.map(validator => reducers.validatorReducer(validator, tokensTotal))
+  } */
   async loadValidators() {
     const [
       validators,
@@ -229,7 +253,7 @@ export default class CosmosAPI {
       // pool
     ] = await Promise.all([
       this.query(`staking/validators?status=BOND_STATUS_BONDED`),
-      this.query(`staking/validators?status=BOND_STATUS_UNBONDING`),
+      this.query(`staking/validators?status=BOND_STATUS_UNBONDED`),
       // this.getAnnualProvision().catch(() => undefined),
       // this.getStakingSupply(),
       // this.query(`cosmos/staking/v1beta1/pool`)

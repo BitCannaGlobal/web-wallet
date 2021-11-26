@@ -58,14 +58,17 @@ export default {
   }),
   computed: {
     sortedEnrichedValidators() {
-      const orderedValidators = orderBy(
-        this.validators.map((validator) => ({
-          ...validator,
-          smallName: validator.name ? validator.name.toLowerCase() : '',
-        })),
-        [this.sort.property],
-        [this.sort.order]
-      )
+      let orderedValidators = ''
+      if (this.validators[0] !== undefined) {
+        orderedValidators = orderBy(
+          this.validators.map((validator) => ({
+            ...validator,
+            smallName: validator.name ? validator.name.toLowerCase() : '',
+          })),
+          [this.sort.property],
+          [this.sort.order]
+        )
+      } else orderedValidators = ''
       return orderedValidators
     },
     properties() {
@@ -100,7 +103,7 @@ export default {
   methods: {
     getDelegation({ operatorAddress }) {
       return this.delegations.find(
-        ({ validator }) => validator.operatorAddress === operatorAddress
+        ({ validator }) => validator?.operatorAddress === operatorAddress
       )
     },
     getRewards({ operatorAddress }) {
@@ -109,7 +112,7 @@ export default {
           this.rewards
             /* istanbul ignore next */
             .filter(
-              ({ validator }) => validator.operatorAddress === operatorAddress
+              ({ validator }) => validator?.operatorAddress === operatorAddress
             )
         )
       }
