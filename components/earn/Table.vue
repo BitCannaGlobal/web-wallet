@@ -2,9 +2,14 @@
   <div class="container2">
     <h1>Pooling</h1>
     <table class="tableearn">
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
       <thead>
         <tr>
-          <th class="cell">Stake</th>
+          <th class="cell"></th>
           <th class="cell"></th>
           <th class="cell">Lockup</th>
           <th class="cell">TVL</th>
@@ -50,9 +55,14 @@
     <br />
     <h1>Stake</h1>
     <table class="tableearn">
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
+      <col style="width: 20%" />
       <thead>
         <tr>
-          <th class="cell index">Stake</th>
+          <th class="cell index"></th>
           <th class="cell"></th>
           <th class="cell">Lockup</th>
           <th class="cell">TVL</th>
@@ -76,7 +86,7 @@
               <i class="material-icons">help</i>
             </nuxt-link> -->
           </td>
-          <td class="cell">
+          <td class="cell noel">
             <nuxt-link to="/validators" class="li-session">
               <CommonButton value="Start earning" />
             </nuxt-link>
@@ -190,7 +200,7 @@ export default {
 }
 
 .tableearn {
-  table-layout: auto;
+  table-layout: fixed;
   min-width: 100%;
   border-radius: 30px;
   border-collapse: separate;
