@@ -253,7 +253,7 @@ export default class CosmosAPI {
       // pool
     ] = await Promise.all([
       this.query(`staking/validators?status=BOND_STATUS_BONDED`),
-      this.query(`staking/validators?status=BOND_STATUS_UNBONDED`),
+      this.query(`staking/validators?status=BOND_STATUS_UNSPECIFIED`),
       // this.getAnnualProvision().catch(() => undefined),
       // this.getStakingSupply(),
       // this.query(`cosmos/staking/v1beta1/pool`)
