@@ -58,17 +58,21 @@ export default {
   }),
   computed: {
     sortedEnrichedValidators() {
-      let orderedValidators = ''
-      if (this.validators[0] !== undefined) {
-        orderedValidators = orderBy(
-          this.validators.map((validator) => ({
-            ...validator,
-            smallName: validator.name ? validator.name.toLowerCase() : '',
-          })),
-          [this.sort.property],
-          [this.sort.order]
-        )
-      } else orderedValidators = ''
+      const excludeJaileds = []
+
+      this.validators.forEach(function (excludeJailed) {
+        if (excludeJailed !== undefined) {
+          excludeJaileds.push(excludeJailed)
+        }
+      })
+      const orderedValidators = orderBy(
+        excludeJaileds.map((validator) => ({
+          ...validator,
+          smallName: validator?.name ? validator?.name.toLowerCase() : '',
+        })),
+        [this.sort.property],
+        [this.sort.order]
+      )
       return orderedValidators
     },
     properties() {
