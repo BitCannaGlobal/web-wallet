@@ -33,7 +33,7 @@ export default {
     async function loadEdit(store) {
       const chainId = network.id
       await window.keplr.enable(chainId)
-      const offlineSigner = window.getOfflineSigner(chainId)
+      const offlineSigner = await window.getOfflineSignerAuto(chainId)
       const accounts = await offlineSigner.getAccounts()
 
       store.$store.dispatch(`signIn`, {

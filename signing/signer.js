@@ -19,7 +19,7 @@ export async function getSigner(
     const { ledger } = await getLedger(ledgerTransport)
     return ledger
   } else if (signingType === `keplr`) {
-    return window.getOfflineSigner(chainId)
+    return await window.getOfflineSignerAuto(chainId)
   }
 
   throw new Error(`Signing via ${signingType} is not supported`)

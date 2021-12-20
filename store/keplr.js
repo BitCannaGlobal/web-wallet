@@ -106,7 +106,7 @@ export const actions = {
         })
         await window.keplr.enable(block.chainId)
 
-        const offlineSigner = window.getOfflineSigner(block.chainId)
+        const offlineSigner = await window.getOfflineSignerAuto(block.chainId)
 
         // You can get the address/public keys by `getAccounts` method.
         // It can return the array of address/public key.
