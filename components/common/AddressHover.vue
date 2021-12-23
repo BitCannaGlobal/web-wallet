@@ -8,7 +8,17 @@
       <a class="tooltip">
         {{ address | formatAddress }}
         <i class="material-icons notranslate">content_copy</i>
-        <span>{{ address }}</span>
+        <span>
+          {{ address }}
+          <br /><br />
+          <qrcode-vue
+            :value="address"
+            foreground="#00B786"
+            size="150"
+            level="L"
+          >
+          </qrcode-vue>
+        </span>
       </a>
     </div>
     <div :class="{ active: copySuccess }" class="copy-tooltip hide">
@@ -19,6 +29,7 @@
 </template>
 
 <script>
+import QrcodeVue from 'qrcode.vue'
 import { formatAddress } from '~/common/address'
 
 export default {
@@ -46,6 +57,9 @@ export default {
         this.copySuccess = false
       }, 2500)
     },
+  },
+  components: {
+    QrcodeVue,
   },
 }
 </script>
