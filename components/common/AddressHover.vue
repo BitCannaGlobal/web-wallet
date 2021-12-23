@@ -11,13 +11,7 @@
         <span>
           {{ address }}
           <br /><br />
-          <qrcode-vue
-            :value="address"
-            foreground="#00B786"
-            size="150"
-            level="L"
-          >
-          </qrcode-vue>
+          <qrcode-vue :value="address" size="150" level="L"></qrcode-vue>
         </span>
       </a>
     </div>
