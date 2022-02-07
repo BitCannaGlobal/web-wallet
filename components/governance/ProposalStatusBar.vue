@@ -8,6 +8,7 @@
         <div>ID: {{ proposal.proposalId }}</div>
       </div>
       <div v-if="depositCount">{{ depositCount }} Deposits</div>
+
       <ProgressBar
         v-if="depositTotal > 0"
         size="large"
@@ -52,46 +53,53 @@
       v-if="status.value !== governanceStatusEnum.DEPOSITING"
       class="bottom row"
     >
+      {{ isNaN(proposal.tally.yes) }}
       <div class="row votes">
         <div class="yes vote-box">
           <div>
             <span class="dot">Yes</span>
             <span>{{ percentageYes | percent }}</span>
           </div>
-          <span class="bottom-row"
+          <span v-if="!isNaN(proposal.tally.yes)" class="bottom-row"
             >{{ proposal.tally.yes | prettyInt }}
             {{ network.stakingDenom }}</span
           >
+          <span v-else class="bottom-row">0 {{ network.stakingDenom }}</span>
         </div>
         <div class="no vote-box">
           <div>
             <span class="dot">No</span>
             <span>{{ percentageNo | percent }}</span>
           </div>
-          <span class="bottom-row"
+          <span v-if="!isNaN(proposal.tally.no)" class="bottom-row"
             >{{ proposal.tally.no | prettyInt }}
             {{ network.stakingDenom }}</span
           >
+          <span v-else class="bottom-row">0 {{ network.stakingDenom }}</span>
         </div>
-        <div v-if="proposal.tally.veto > 0" class="veto vote-box">
+        <!--  v-if="proposal.tally.veto > 0"  -->
+        <div class="veto vote-box">
           <div>
             <span class="dot">Veto</span>
             <span>{{ percentageVeto | percent }}</span>
           </div>
-          <span class="bottom-row"
+          <span v-if="!isNaN(proposal.tally.veto)" class="bottom-row"
             >{{ proposal.tally.veto | prettyInt }}
             {{ network.stakingDenom }}</span
           >
+          <span v-else class="bottom-row">0 {{ network.stakingDenom }}</span>
         </div>
-        <div v-if="proposal.tally.abstain > 0" class="abstain vote-box">
+        <!-- v-if="proposal.tally.abstain > 0" -->
+        <div class="abstain vote-box">
           <div>
             <span class="dot">Abstain</span>
             <span>{{ percentageAbstain | percent }}</span>
           </div>
-          <span class="bottom-row"
+          <span v-if="!isNaN(proposal.tally.abstain)" class="bottom-row"
             >{{ proposal.tally.abstain | prettyInt }}
             {{ network.stakingDenom }}</span
           >
+          <span v-else class="bottom-row">0 {{ network.stakingDenom }}</span>
         </div>
       </div>
     </div>

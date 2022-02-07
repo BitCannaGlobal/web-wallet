@@ -5,8 +5,8 @@ export default {
     'BitCanna provides a decentralized payment network for the legal cannabis industry, by means of the BitCanna Coin (BCNA).',
   logo: `logo.svg`,
   website: 'https://www.bitcanna.io',
-  apiURL: 'https://lcd.bitcanna.io',
-  rpcURL: 'https://rpc.bitcanna.io',
+  apiURL: 'https://lcd-testnet.bitcanna.io', // https://lcd.bitcanna.io
+  rpcURL: 'https://rpc-testnet.bitcanna.io', // https://rpc.bitcanna.io
   explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
   exchangeApiUrl: 'https://swap.bitcanna.io',
