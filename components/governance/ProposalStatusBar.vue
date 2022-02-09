@@ -53,7 +53,6 @@
       v-if="status.value !== governanceStatusEnum.DEPOSITING"
       class="bottom row"
     >
-      {{ isNaN(proposal.tally.yes) }}
       <div class="row votes">
         <div class="yes vote-box">
           <div>

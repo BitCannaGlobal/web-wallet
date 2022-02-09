@@ -94,6 +94,7 @@ export default {
       }
     },
     proposalId() {
+      // console.log(this.proposals)
       return Number(this.$route.params.id)
     },
     status() {
@@ -103,7 +104,6 @@ export default {
       return BigNumber(this.proposal.tally.total).eq(0)
     },
     tallyHasValues() {
-      console.log(this.proposal.tally)
       return Object.values(this.proposal.tally)
         .filter((value) => value !== `Tally`)
         .find((value) => value)

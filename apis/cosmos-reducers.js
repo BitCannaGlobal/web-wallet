@@ -68,21 +68,22 @@ function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
 export function tallyReducer(proposal, tally, totalBondedTokens) {
   // if the proposal is out of voting, use the final result for the tally
   if (proposalFinalized(proposal)) {
-    tally = proposal.final_tally_result
+    tally.tally = proposal.final_tally_result
   }
 
   const totalVoted = getStakingCoinViewAmount(
-    BigNumber(tally.yes)
-      .plus(tally.no)
-      .plus(tally.abstain)
-      .plus(tally.no_with_veto)
+    BigNumber(tally.tally.yes)
+      .plus(tally.tally.no)
+      .plus(tally.tally.abstain)
+      .plus(tally.tally.no_with_veto)
   )
 
+  // console.log(tally)
   return {
-    yes: getStakingCoinViewAmount(tally.yes),
-    no: getStakingCoinViewAmount(tally.no),
-    abstain: getStakingCoinViewAmount(tally.abstain),
-    veto: getStakingCoinViewAmount(tally.no_with_veto),
+    yes: getStakingCoinViewAmount(tally.tally.yes),
+    no: getStakingCoinViewAmount(tally.tally.no),
+    abstain: getStakingCoinViewAmount(tally.tally.abstain),
+    veto: getStakingCoinViewAmount(tally.tally.no_with_veto),
     total: totalVoted,
     totalVotedPercentage: getTotalVotePercentage(
       proposal,
@@ -251,6 +252,9 @@ const proposalTypeEnumDictionary = {
   TextProposal: 'TEXT',
   CommunityPoolSpendProposal: 'TREASURY',
   ParameterChangeProposal: 'PARAMETER_CHANGE',
+  'ibc.core.client.v1.UpgradeProposal': 'UPGRADE_PROPOSAL',
+  'ibc.core.client.v1.ClientUpdateProposal': 'CLIENT_UPDATE',
+  'cosmos.params.v1beta1.ParameterChangeProposal': 'PARAMETER_CHANGE',
 }
 
 // map Cosmos SDK message types to Lunie message types
@@ -488,7 +492,7 @@ export function proposalReducer(
   totalBondedTokens,
   detailedVotes
 ) {
-
+  // console.log(tallyReducer(proposal, detailedVotes.tally, totalBondedTokens))
   return {
     id: Number(proposal.proposal_id),
     proposalId: String(proposal.proposal_id),

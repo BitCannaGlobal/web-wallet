@@ -284,8 +284,9 @@ export default class CosmosAPI {
 
     const votes = dataAvailable ? await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/votes`) : []
     const deposits = dataAvailable ? await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/deposits`) : []
-    const tally = votingComplete ? proposal.final_tally_result : await this.query(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/tally`)
+    const tally = await this.query(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/tally`)
 
+    // console.log(tally)
     const totalVotingParticipation = BigNumber(tally.yes)
       .plus(tally.abstain)
       .plus(tally.no)
