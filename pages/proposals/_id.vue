@@ -60,6 +60,7 @@ import { date, fromNow } from '~/common/time'
 import {
   getProposalStatus,
   governanceStatusEnum,
+  getVoteStatus,
 } from '~/common/proposal-status'
 import network from '~/common/network'
 
@@ -116,7 +117,7 @@ export default {
         return this.proposal.detailedVotes.votes.map((vote) => ({
           ...vote.voter,
           amount: vote.amount,
-          option: vote.option,
+          option: getVoteStatus(vote.option),
         }))
       } else if (
         this.proposal.detailedVotes.deposits &&

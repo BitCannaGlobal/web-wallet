@@ -55,6 +55,7 @@ function getDeposit(proposal) {
 
 function getTotalVotePercentage(proposal, totalBondedTokens, totalVoted) {
   // for passed proposals we can't calculate the total voted percentage, as we don't know the totalBondedTokens in the past
+  console.log(proposal, totalBondedTokens)
   if (proposalFinalized(proposal)) return -1
   if (BigNumber(totalVoted).eq(0)) return 0
   if (!totalBondedTokens) return -1

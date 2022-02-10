@@ -42,3 +42,28 @@ export const getProposalStatus = (proposal) => {
       }
   }
 }
+
+export const getVoteStatus = (vote) => {
+  switch (vote) {
+    case `VOTE_OPTION_YES`:
+      return {
+        title: `Yes`,
+      }
+    case `VOTE_OPTION_ABSTAIN`:
+      return {
+        title: `Abstain`,
+      }
+    case `VOTE_OPTION_NO`:
+      return {
+        title: `No`,
+      }
+    case `VOTE_OPTION_NO_WITH_VETO`:
+      return {
+        title: `Veto`,
+      }
+    default:
+      return {
+        title: `Error`,
+      }
+  }
+}
