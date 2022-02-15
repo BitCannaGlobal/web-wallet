@@ -150,6 +150,7 @@
     <LazyModalRestake
       ref="RestakeModal"
       :source-validator="validator"
+      :source-delegator="session"
       :is-unnomination="true"
     />
   </div>
@@ -206,7 +207,6 @@ export default {
       }
     },
     rewardsForValidator() {
-      console.log(this.rewards)
       return this.rewards.filter(
         ({ validator: { operatorAddress } }) => operatorAddress === this.address
       )
@@ -237,7 +237,6 @@ export default {
     fromNow,
     noBlanks,
     checkValidatorUptime() {
-      console.log(this.validator.status)
       if (this.validator.status === 'INACTIVE') {
         return '0%'
       } else {

@@ -10,6 +10,7 @@
     :transaction-type="lunieMessageTypes.UNDELEGATE"
     :transaction-data="transactionData"
     :notify-message="notifyMessage"
+    :disabled="disabled"
     feature-flag="undelegate"
     @close="clear"
     @txIncluded="onSuccess"
@@ -57,8 +58,13 @@
         />
       </div>
       <span class="form-message">
-        Currently staked: {{ maximum }} {{ stakingDenom }}
+        Currently staked: {{ maximum }} {{ stakingDenom }} / Immature for
+        redelegation: {{ totalRedelegate }} {{ stakingDenom }}
       </span>
+      <!-- <span class="form-message">
+        {{ unboundData }} <br />
+        {{ unboundDataDate }}
+      </span> -->
       <CommonFormMessage
         v-if="maximum === '0'"
         :msg="`doesn't have any ${network.stakingDenom}s`"
@@ -78,7 +84,7 @@
       <CommonFormMessage
         v-else-if="$v.amount.$error && !$v.amount.max"
         type="custom"
-        :msg="`You don't have enough ${stakingDenom} to proceed.`"
+        :msg="`Amount to redelegate exceeds your available amount.`"
       />
       <CommonFormMessage
         v-else-if="$v.amount.$error && !$v.amount.min"
@@ -123,6 +129,10 @@ export default {
       type: Object,
       default: () => ({}),
     },
+    sourceDelegator: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data: () => ({
     amount: null,
@@ -131,6 +141,10 @@ export default {
     smallestAmount: SMALLEST,
     stakingDenom: network.stakingDenom,
     network,
+    unboundData: '',
+    unboundDataDate: '',
+    disabled: false,
+    totalRedelegate: 0,
   }),
   computed: {
     ...mapState(`data`, [`delegations`]),
@@ -140,6 +154,7 @@ export default {
         ({ validator }) =>
           validator.operatorAddress === this.sourceValidator.operatorAddress
       )
+      console.log(this.totalRedelegate)
       return delegation ? Number(delegation.amount) : 0
     },
     transactionData() {
@@ -179,7 +194,7 @@ export default {
       amount: {
         required,
         decimal,
-        max: (x) => Number(x) <= this.maximum,
+        max: (x) => Number(x) <= this.maximum - this.totalRedelegate,
         min: (x) => Number(x) >= SMALLEST,
         maxDecimals: (x) => {
           return Number(x).toString().split('.').length > 1
@@ -199,13 +214,31 @@ export default {
       },
     }
   },
+  async beforeMount() {
+    const unboundData = await fetch(
+      network.apiURL +
+        `/cosmos/staking/v1beta1/delegators/` +
+        this.sourceDelegator.address +
+        '/redelegations'
+    ).then((res) => res.json())
+    const foundValidatorMainInfo = unboundData.redelegation_responses.find(
+      (element) =>
+        element.redelegation.validator_dst_address ===
+        this.sourceValidator.operatorAddress
+    )
+
+    let totalRedelegate = this.totalRedelegate
+    foundValidatorMainInfo?.entries.forEach(function (item) {
+      totalRedelegate += Number(item.balance)
+    })
+    this.totalRedelegate = totalRedelegate / 1000000
+  },
   methods: {
     open() {
       this.$refs.ModalAction.open()
     },
     validateForm() {
       this.$v.$touch()
-      console.log(this.$v.$invalid)
       return !this.$v.$invalid
     },
     clear() {
@@ -213,7 +246,7 @@ export default {
       this.amount = 0
     },
     setMaxAmount() {
-      this.amount = this.maximum
+      this.amount = this.maximum - this.totalRedelegate
     },
     enterPressed() {
       this.$refs.ModalAction.validateChangeStep()

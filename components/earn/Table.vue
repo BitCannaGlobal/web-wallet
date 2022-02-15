@@ -82,9 +82,9 @@
           </td>
           <td class="cell">
             {{ bcnaApr | bigFigureOrShortDecimals }}% (excl. commission)
-            <nuxt-link to="/earn" @click.native="hi">
+            <!-- <nuxt-link to="/earn" @click.native="hi">
               <i class="material-icons">help</i>
-            </nuxt-link>
+            </nuxt-link> -->
           </td>
           <td class="cell noel">
             <nuxt-link to="/validators" class="li-session">

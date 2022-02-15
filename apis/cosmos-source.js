@@ -395,7 +395,6 @@ export default class CosmosAPI {
           tallyParams,
           depositParams,
         )
-        console.log(pool.pool.bonded_tokens)
         return this.reducers.proposalReducer(
           proposal,
           pool.pool.bonded_tokens,
