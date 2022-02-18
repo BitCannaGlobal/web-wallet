@@ -215,23 +215,26 @@ export default {
     }
   },
   async beforeMount() {
-    const unboundData = await fetch(
-      network.apiURL +
-        `/cosmos/staking/v1beta1/delegators/` +
-        this.sourceDelegator.address +
-        '/redelegations'
-    ).then((res) => res.json())
-    const foundValidatorMainInfo = unboundData.redelegation_responses.find(
-      (element) =>
-        element.redelegation.validator_dst_address ===
-        this.sourceValidator.operatorAddress
-    )
+    // console.log(this.sourceDelegator)
+    if (this.session) {
+      const unboundData = await fetch(
+        network.apiURL +
+          `/cosmos/staking/v1beta1/delegators/` +
+          this.sourceDelegator.address +
+          '/redelegations'
+      ).then((res) => res.json())
+      const foundValidatorMainInfo = unboundData.redelegation_responses.find(
+        (element) =>
+          element.redelegation.validator_dst_address ===
+          this.sourceValidator.operatorAddress
+      )
 
-    let totalRedelegate = this.totalRedelegate
-    foundValidatorMainInfo?.entries.forEach(function (item) {
-      totalRedelegate += Number(item.balance)
-    })
-    this.totalRedelegate = totalRedelegate / 1000000
+      let totalRedelegate = this.totalRedelegate
+      foundValidatorMainInfo?.entries.forEach(function (item) {
+        totalRedelegate += Number(item.balance)
+      })
+      this.totalRedelegate = totalRedelegate / 1000000
+    }
   },
   methods: {
     open() {
