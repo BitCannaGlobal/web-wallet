@@ -30,7 +30,7 @@
           &ensp; Height
         </h4>
         <p class="text-block">
-          {{ validatorInfoPage.height }}
+          {{ block.height }}
         </p>
       </div>
       <div>
@@ -77,6 +77,7 @@ export default {
   }),
   computed: {
     ...mapState('data', [
+      'block',
       'validators',
       'validatorsLoaded',
       'delegations',

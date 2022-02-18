@@ -31,6 +31,9 @@ export default {
   filters: {
     formatAddress,
   },
+  components: {
+    QrcodeVue,
+  },
   props: {
     address: {
       type: String,
@@ -51,9 +54,6 @@ export default {
         this.copySuccess = false
       }, 2500)
     },
-  },
-  components: {
-    QrcodeVue,
   },
 }
 </script>
