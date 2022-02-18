@@ -282,9 +282,9 @@ export default class CosmosAPI {
     const dataAvailable = this.dataExistsInThisChain(proposal.submit_time)
     const votingComplete = ['PROPOSAL_STATUS_PASSED', 'PROPOSAL_STATUS_REJECTED'].includes(proposal.status)
 
-    const votes = dataAvailable ? await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/votes`) : []
-    const deposits = dataAvailable ? await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/deposits`) : []
-    const tally = votingComplete ? proposal.final_tally_result : await this.query(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/tally`)
+    const votes = await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/votes`)
+    const deposits = await this.queryAutoPaginate(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/deposits`)
+    const tally = await this.query(`/cosmos/gov/v1beta1/proposals/${proposal.proposal_id}/tally`)
 
     const totalVotingParticipation = BigNumber(tally.yes)
       .plus(tally.abstain)
@@ -397,7 +397,7 @@ export default class CosmosAPI {
         )
         return this.reducers.proposalReducer(
           proposal,
-          pool.bonded_tokens,
+          pool.pool.bonded_tokens,
           detailedVotes,
         )
       })

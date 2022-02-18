@@ -358,7 +358,7 @@ async function ReDelegateTokensBcna(
   return result
 }
 
-async function voteTxBcna(sign, fromDel, proposalId, vote, fee, signingType) {
+async function voteTxBcna(sign, fromDel, proposalIdd, vote, fee, signingType) {
   let wallet = ''
   if (signingType === 'local') {
     wallet = await DirectSecp256k1HdWallet.fromMnemonic(sign.secret.data, {
@@ -391,13 +391,23 @@ async function voteTxBcna(sign, fromDel, proposalId, vote, fee, signingType) {
       finalVote = '0'
   }
 
-  const result = await client.voteProposale(
+  /* const result = await client.voteProposale(
     fromDel,
     proposalId,
     finalVote,
     fee,
     'Voted from Bitcanna WebWallet'
-  )
+  ) */
+  const MsgVote = defaultRegistryTypes[7][1] // MsgVote
+  const voteMsg = {
+    typeUrl: '/cosmos.gov.v1beta1.MsgVote',
+    value: MsgVote.fromPartial({
+      proposalId: proposalIdd,
+      voter: fromDel,
+      option: finalVote,
+    }),
+  }
+  const result = client.signAndBroadcast(fromDel, [voteMsg], fee, '')
   assertIsBroadcastTxSuccess(result)
   return result
 }

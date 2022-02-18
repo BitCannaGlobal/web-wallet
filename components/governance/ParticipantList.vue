@@ -20,7 +20,7 @@
             participant.name
           }}</span>
           <span v-else class="name">
-            <Address :address="participant.address" />
+            {{ participant.address }}
           </span>
         </div>
         <template v-if="participant.votingPower">
@@ -32,7 +32,7 @@
           </div>
         </template>
         <div v-if="showAmounts && participant.option">
-          <span class="option">{{ participant.option }}</span>
+          <span class="option">{{ participant.option.title }}</span>
         </div>
         <div v-if="showAmounts && participant.amount">
           <span class="amount"

@@ -93,7 +93,6 @@ export default {
 .data-row {
   display: flex;
   justify-content: space-between;
-  align-items: center;
 }
 
 .data-row div {

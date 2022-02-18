@@ -25,7 +25,7 @@
           </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData572 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">142% + BONUS BCNA</td>
+          <td class="cell">{{ apr572 }}% + {{ bonus572 }}% BONUS BCNA</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/572'"
@@ -41,7 +41,7 @@
           </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData571 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">163% + BONUS BCNA</td>
+          <td class="cell">{{ apr571 }}% + {{ bonus571 }}% BONUS BCNA</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/571'"
@@ -134,6 +134,10 @@ export default {
     tvlData571: '',
     tvlData572: '',
     bcnaAprr: '',
+    apr571: '',
+    apr572: '',
+    bonus571: '',
+    bonus572: '',
   }),
   computed: {
     ...mapState([`session`]),
@@ -156,12 +160,41 @@ export default {
       'https://api-osmosis.imperator.co/pools/v1/572'
     )
     this.tvlData572 = responseData572.data[0].liquidity
+
+    // Apr 571
+    const aprData572 = await axios.get(
+      'https://api-osmosis.imperator.co/apr/v1/572'
+    )
+    this.apr572 = aprData572.data[0].apr_list[1].apr_14d.toFixed(2)
+
+    // Apr 571
+    const aprData571 = await axios.get(
+      'https://api-osmosis.imperator.co/apr/v1/571'
+    )
+    this.apr571 = aprData571.data[0].apr_list[1].apr_14d.toFixed(2)
+    // you take the total liquidity of the pool (1.75M)
+    // and the bonus rewards (2.4M)
+    // (((((2.4M * 0.14) / 180) / 1.75M) * 365) * 100)
+    // console.log(this.bcnaValue)
+    const finalBonus571 = (
+      ((1600000 * this.bcnaValue) / 180 / responseData571.data[0].liquidity) *
+      365 *
+      100
+    ).toFixed(2)
+    this.bonus571 = finalBonus571
+
+    const finalBonus572 = (
+      ((2400000 * this.bcnaValue) / 180 / responseData572.data[0].liquidity) *
+      365 *
+      100
+    ).toFixed(2)
+    this.bonus572 = finalBonus572
   },
   mounted() {
     this.loadData()
   },
   methods: {
-    /* hi(e) {
+    hi(e) {
       const textHelp =
         'Need help?\nLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s.'
       this.$toast.info(textHelp, {
@@ -173,7 +206,7 @@ export default {
         closeButton: 'button',
         icon: true,
       })
-    }, */
+    },
     loadData() {
       this.$store.dispatch('data/refresh')
     },
