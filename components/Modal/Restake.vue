@@ -32,7 +32,12 @@
       field-id="to"
       field-label="To"
     >
-      <CommonField id="to" v-model="to" type="text" />
+      <CommonField
+        id="to"
+        v-model="to"
+        type="select"
+        :options="getValidatorList"
+      />
     </CommonFormGroup>
     <CommonFormGroup
       :error="$v.amount.$error && $v.amount.$invalid"
@@ -147,9 +152,10 @@ export default {
     totalRedelegate: 0,
   }),
   computed: {
-    ...mapState(`data`, [`delegations`]),
+    ...mapState(`data`, [`delegations`, 'validators']),
     ...mapState(['session']),
     maximum() {
+      // console.log(this.validators)
       const delegation = this.delegations.find(
         ({ validator }) =>
           validator.operatorAddress === this.sourceValidator.operatorAddress
@@ -187,6 +193,15 @@ export default {
     },
     enhancedSourceValidator() {
       return validatorEntry(this.sourceValidator)
+    },
+    getValidatorList() {
+      const copie = []
+      this.validators.forEach(function (item) {
+        copie.push({ key: item.name, value: item.operatorAddress })
+      })
+      console.log(this.validators)
+      copie.sort((a, b) => (a.key !== b.key ? (a.key < b.key ? -1 : 1) : 0))
+      return copie
     },
   },
   validations() {
