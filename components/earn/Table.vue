@@ -151,25 +151,25 @@ export default {
   async beforeMount() {
     // Pool 571
     const responseData571 = await axios.get(
-      'https://api-osmosis.imperator.co/pools/v1/571'
+      'https://api-osmosis.imperator.co/pools/v2/571'
     )
     this.tvlData571 = responseData571.data[0].liquidity
 
     // Pool 572
     const responseData572 = await axios.get(
-      'https://api-osmosis.imperator.co/pools/v1/572'
+      'https://api-osmosis.imperator.co/pools/v2/572'
     )
     this.tvlData572 = responseData572.data[0].liquidity
 
     // Apr 571
     const aprData572 = await axios.get(
-      'https://api-osmosis.imperator.co/apr/v1/572'
+      'https://api-osmosis.imperator.co/apr/v2/572'
     )
     this.apr572 = aprData572.data[0].apr_list[1].apr_14d.toFixed(2)
 
     // Apr 571
     const aprData571 = await axios.get(
-      'https://api-osmosis.imperator.co/apr/v1/571'
+      'https://api-osmosis.imperator.co/apr/v2/571'
     )
     this.apr571 = aprData571.data[0].apr_list[1].apr_14d.toFixed(2)
     // you take the total liquidity of the pool (1.75M)
@@ -189,6 +189,7 @@ export default {
       100
     ).toFixed(2)
     this.bonus572 = finalBonus572
+    console.log(responseData572.data[0].liquidity)
   },
   mounted() {
     this.loadData()
