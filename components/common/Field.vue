@@ -147,8 +147,6 @@ select.field {
 }
 
 select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
   text-indent: 1px;
   text-overflow: '';
   border: none;
