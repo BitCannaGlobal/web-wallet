@@ -13,7 +13,7 @@
 <script>
 export default {
   name: `PageSwap`,
-  middleware: ['addressRequired', 'swapEnabled'],
+  middleware: ['addressRequired'],
 }
 </script>
 
