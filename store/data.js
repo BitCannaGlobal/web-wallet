@@ -1,8 +1,9 @@
-import { keyBy, uniqBy } from 'lodash'
+import axios from 'axios'
+import { /* keyBy, */ uniqBy } from 'lodash'
 import network from '~/common/network'
 // import DataSource from '~/apis/cosmos-source-0.39'
 import DataSource from '~/apis/cosmos-source'
-import { updateValidatorImages } from '~/common/keybase'
+// import { updateValidatorImages } from '~/common/keybase'
 
 export const state = () => ({
   block: undefined,
@@ -218,8 +219,35 @@ export const actions = {
     dispatch('updateValidatorImages')
   },
   async updateValidatorImages({ state, commit }) {
+    // Remove keybase for use mintscan repo to avoid CORS problem
+    await Promise.all(
+      state.validators.map(async (item) => {
+        // await state.validators.forEach(function (item) {
+        let apiRes = null
+        const finalAvatar =
+          'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/moniker/bitcanna/' +
+          item.operatorAddress +
+          '.png'
+        try {
+          await axios.get(finalAvatar)
+          apiRes = finalAvatar
+        } catch (err) {
+          apiRes = 'logo-bcna.png'
+        }
+        item.picture = apiRes
+      })
+    )
+    // console.log(state.validators)
+    /* let apiRes = null;
+    let finalAvatar = cosmosConfig[0].monikerResources + '/' + item.operator_address + '.png'
+    try {
+      await axios.get(finalAvatar);
+      apiRes = finalAvatar
+    } catch (err) {
+      apiRes = cosmosConfig[0].coinLookup.icon;
+    } */
     // get validator images for chunk
-    await updateValidatorImages(state.validators, (updatedChunk) => {
+    /* await updateValidatorImages(state.validators, (updatedChunk) => {
       const updatedValidatorsDict = keyBy(updatedChunk, 'operatorAddress')
       // update the validators from our chunk
       const updatedValidators = state.validators.map((validator) => {
@@ -233,7 +261,7 @@ export const actions = {
 
       // update the store and UI
       commit('setValidators', updatedValidators)
-    })
+    }) */
   },
   async getDelegations({ commit, state: { api } }, address) {
     try {
