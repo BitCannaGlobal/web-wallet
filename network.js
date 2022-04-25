@@ -38,6 +38,6 @@ export default {
     },
   },
   icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
-  swapEnabled: true,
+  swapEnabled: false,
   localSigning: false, // this is only to be used as a developer tool - never deployed in production or for mainnet chains
 }
