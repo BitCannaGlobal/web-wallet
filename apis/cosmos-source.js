@@ -197,7 +197,7 @@ export default class CosmosAPI {
   }
 
   async getBcnaValue() {
-    return await this.axios(`https://payment.bitcanna.io/api/price/usd`)
+    return await this.axios(`https://api.coingecko.com/api/v3/simple/price?ids=bitcanna&vs_currencies=usd`)
   }
 
   async getBcnaInflation() {
