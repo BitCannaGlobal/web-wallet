@@ -5,7 +5,7 @@ export default {
     'BitCanna provides a decentralized payment network for the legal cannabis industry, by means of the BitCanna Coin (BCNA).',
   logo: `logo.svg`,
   website: 'https://www.bitcanna.io',
-  apiURL: 'https://lcd.bitcanna.io', // https://lcd.bitcanna.io
+  apiURL: 'http://seed2.bitcanna.io:1317', // https://lcd.bitcanna.io
   rpcURL: 'https://rpc.bitcanna.io', // https://rpc.bitcanna.io
   explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
@@ -40,4 +40,7 @@ export default {
   icon: `https://lunie.fra1.digitaloceanspaces.com/network-icons/cosmos.png`,
   swapEnabled: false,
   localSigning: false, // this is only to be used as a developer tool - never deployed in production or for mainnet chains
+  nftContract:
+    'stars1cpzvvmlrc9lcw3q5yrznax0uk5h6xww2d4ch9xve4xu8mfvgw2kqepnwd2',
+  sg721: 'stars1w4dff5myjyzymk8tkpjrzj6gnv352hcdpt2dszweqnff927a9xmqc7e0gv',
 }
