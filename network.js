@@ -5,7 +5,7 @@ export default {
     'BitCanna provides a decentralized payment network for the legal cannabis industry, by means of the BitCanna Coin (BCNA).',
   logo: `logo.svg`,
   website: 'https://www.bitcanna.io',
-  apiURL: 'https://bcna-lcd.cosmos-tool.com', // https://lcd.bitcanna.io
+  apiURL: 'https://lcd.bitcanna.io', // https://lcd.bitcanna.io
   rpcURL: 'https://rpc.bitcanna.io', // https://rpc.bitcanna.io
   explorerURL: 'https://cosmos-explorer.bitcanna.io',
   bitcannaExplorerURL: 'https://explorer.bitcanna.io',
