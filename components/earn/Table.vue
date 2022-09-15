@@ -165,13 +165,13 @@ export default {
     const aprData572 = await axios.get(
       'https://api-osmosis.imperator.co/apr/v2/572'
     )
-    this.apr572 = aprData572.data[0].apr_list[1].apr_14d.toFixed(2)
-
+    const apR4d = String(aprData572.data[0].apr_list[0].apr_14d)
+    this.apr572 = Number(apR4d.slice(0, -4)).toFixed(2)
     // Apr 571
     const aprData571 = await axios.get(
       'https://api-osmosis.imperator.co/apr/v2/571'
     )
-    this.apr571 = aprData571.data[0].apr_list[1].apr_14d.toFixed(2)
+    this.apr571 = aprData571.data[0].apr_list[0].apr_14d.toFixed(2)
     // you take the total liquidity of the pool (1.75M)
     // and the bonus rewards (2.4M)
     // (((((2.4M * 0.14) / 180) / 1.75M) * 365) * 100)

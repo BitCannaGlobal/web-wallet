@@ -269,13 +269,7 @@ async function delegateTokensBcna(
     amount: amountBcna,
   }
 
-  const result = await client.delegateTokens(
-    addFrom,
-    addTo,
-    amount,
-    fee,
-    ''
-  )
+  const result = await client.delegateTokens(addFrom, addTo, amount, fee, '')
   assertIsBroadcastTxSuccess(result)
   return result
 }
