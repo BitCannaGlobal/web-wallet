@@ -25,7 +25,7 @@
           </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData572 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">{{ apr572 }}% + {{ bonus572 }}% BONUS BCNA</td>
+          <td class="cell">{{ apr572 }}%</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/572'"
@@ -41,7 +41,7 @@
           </td>
           <td class="cell">1-7-14 days</td>
           <td class="cell">${{ tvlData571 | bigFigureOrShortDecimals }}</td>
-          <td class="cell">{{ apr571 }}% + {{ bonus571 }}% BONUS BCNA</td>
+          <td class="cell">{{ apr571 }}%</td>
           <td class="cell">
             <CommonButton
               :href="network.osmosAppUrl + '/pool/571'"
@@ -136,8 +136,6 @@ export default {
     bcnaAprr: '',
     apr571: '',
     apr572: '',
-    bonus571: '',
-    bonus572: '',
   }),
   computed: {
     ...mapState([`session`]),
@@ -172,24 +170,6 @@ export default {
       'https://api-osmosis.imperator.co/apr/v2/571'
     )
     this.apr571 = aprData571.data[0].apr_list[0].apr_14d.toFixed(2)
-    // you take the total liquidity of the pool (1.75M)
-    // and the bonus rewards (2.4M)
-    // (((((2.4M * 0.14) / 180) / 1.75M) * 365) * 100)
-    // console.log(this.bcnaValue)
-    const finalBonus571 = (
-      ((1600000 * this.bcnaValue) / 180 / responseData571.data[0].liquidity) *
-      365 *
-      100
-    ).toFixed(2)
-    this.bonus571 = finalBonus571
-
-    const finalBonus572 = (
-      ((2400000 * this.bcnaValue) / 180 / responseData572.data[0].liquidity) *
-      365 *
-      100
-    ).toFixed(2)
-    this.bonus572 = finalBonus572
-    console.log(responseData572.data[0].liquidity)
   },
   mounted() {
     this.loadData()
