@@ -274,7 +274,7 @@ async function delegateTokensBcna(
     addTo,
     amount,
     fee,
-    'Delegated from WebWallet'
+    ''
   )
   assertIsBroadcastTxSuccess(result)
   return result
@@ -311,7 +311,7 @@ async function unDelegateTokensBcna(
     validator,
     amount,
     fee,
-    'Undelegate from Bitcanna WebWallet'
+    ''
   )
   assertIsBroadcastTxSuccess(result)
   return result
