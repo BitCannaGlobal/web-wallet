@@ -1,3 +1,4 @@
+import { getOfflineSigner } from '@cosmostation/cosmos-client'
 import { getWallet } from '~/common/keystore'
 import { getLedger } from '~/common/ledger'
 
@@ -20,6 +21,8 @@ export async function getSigner(
     return ledger
   } else if (signingType === `keplr`) {
     return await window.getOfflineSignerAuto(chainId)
+  } else if (signingType === `cosmostation`) {
+    return await getOfflineSigner(chainId)
   }
 
   throw new Error(`Signing via ${signingType} is not supported`)
