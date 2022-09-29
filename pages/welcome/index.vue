@@ -19,6 +19,11 @@
         title="Keplr Browser Extension"
         route="/keplr"
       />
+      <AddressLiSession
+        icon="hdr_weak"
+        title="Cosmostation Browser Extension"
+        route="/cosmostation"
+      />
       <AddressLiSession icon="usb" title="Ledger Nano" route="/ledger" />
       <template v-if="network.localSigning">
         <AddressLiSession

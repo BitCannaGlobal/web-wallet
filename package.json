@@ -26,6 +26,8 @@
     "@cosmjs/launchpad-ledger": "^0.23.1",
     "@cosmjs/proto-signing": "^0.26.1",
     "@cosmjs/stargate": "^0.26.1",
+    "@cosmostation/cosmos-client": "^0.0.1",
+    "@cosmostation/extension-client": "^0.1.9",
     "@dansmaculotte/nuxt-security": "^0.0.5",
     "@ledgerhq/hw-transport-webhid": "^5.30.0",
     "@ledgerhq/hw-transport-webusb": "^5.30.0",
