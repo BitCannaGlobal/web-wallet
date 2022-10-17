@@ -25,6 +25,13 @@
         </h4>
         <p class="text-block">{{ bcnaApr | bigFigureOrShortDecimals }} %</p>
       </div>
+      <!--<div>
+        <h4 class="icon">
+          <img src="icon/nft.png" />
+          &ensp; NFTs
+        </h4>
+        <p class="text-block">2 NFTs</p>
+      </div>-->
     </div>
   </div>
 </template>
