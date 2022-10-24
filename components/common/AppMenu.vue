@@ -54,6 +54,16 @@
         <h2 class="app-menu-title">Transactions</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </nuxt-link>
+      <nuxt-link
+        class="app-menu-item"
+        to="/mynft"
+        exact="exact"
+        title="My Nft"
+        @click.native="handleClick()"
+      >
+        <h2 class="app-menu-title">My Nft</h2>
+        <i class="material-icons notranslate">chevron_right</i>
+      </nuxt-link>
       <template v-if="session && network.swapEnabled">
         <nuxt-link
           class="app-menu-item"
