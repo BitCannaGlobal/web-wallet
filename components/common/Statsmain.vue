@@ -25,6 +25,13 @@
         </h4>
         <p class="text-block">{{ bcnaApr | bigFigureOrShortDecimals }} %</p>
       </div>
+      <!--<div>
+        <h4 class="icon">
+          <img src="icon/nft.png" />
+          &ensp; NFTs
+        </h4>
+        <p class="text-block">2 NFTs</p>
+      </div>-->
     </div>
   </div>
 </template>
@@ -90,9 +97,21 @@ export default {
   padding: 0 0 3rem;
 }
 
-.data-row {
-  display: flex;
-  justify-content: space-between;
+@media (min-width: 300px) {
+  .data-row {
+    margin: 2 auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+@media (min-width: 900px) {
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 
 .data-row div {

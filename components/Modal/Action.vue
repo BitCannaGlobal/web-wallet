@@ -75,7 +75,8 @@
           v-if="
             session.sessionType === SESSION_TYPES.EXTENSION ||
             session.sessionType === SESSION_TYPES.KEPLR ||
-            session.sessionType === SESSION_TYPES.LEDGER
+            session.sessionType === SESSION_TYPES.LEDGER ||
+            session.sessionType === SESSION_TYPES.COSMOSTATION
           "
         >
           <div slot="subtitle">
@@ -180,6 +181,7 @@ const SESSION_TYPES = {
   LEDGER: `ledger`,
   EXTENSION: `extension`,
   KEPLR: `keplr`,
+  COSMOSTATION: `cosmostation`,
   EXPLORE: `explore`,
 }
 
@@ -264,7 +266,8 @@ export default {
     },
     steps() {
       const isExtensionSession =
-        this.session.sessionType === SESSION_TYPES.KEPLR
+        this.session.sessionType === SESSION_TYPES.KEPLR ||
+        SESSION_TYPES.COSMOSTATION
       return [
         'Details',
         isExtensionSession ? undefined : 'Fees',
@@ -348,7 +351,8 @@ export default {
         case signStep:
           // Keplr is handling fees
           this.step =
-            this.session.sessionType === SESSION_TYPES.KEPLR
+            this.session.sessionType === SESSION_TYPES.KEPLR ||
+            SESSION_TYPES.COSMOSTATION
               ? defaultStep
               : feeStep
           break
@@ -368,7 +372,8 @@ export default {
           }
           // Keplr is handling fees
           this.step =
-            this.session.sessionType === SESSION_TYPES.KEPLR
+            this.session.sessionType === SESSION_TYPES.KEPLR ||
+            SESSION_TYPES.COSMOSTATION
               ? signStep
               : feeStep
           return
@@ -470,6 +475,7 @@ export default {
       this.$store.dispatch('data/refreshSession')
     },
     getExternalSessionMessage(sessionType) {
+      console.log(sessionType)
       switch (sessionType) {
         case SESSION_TYPES.EXTENSION:
           return `The transaction will be sent to the Lunie Browser Extension for you to review and approve.`
@@ -477,6 +483,8 @@ export default {
           return `The transaction will be sent to your Ledger Nano for you to review and approve.`
         case SESSION_TYPES.KEPLR:
           return `The transaction will be sent to the Keplr Browser Extension for you to review and approve.`
+        case SESSION_TYPES.COSMOSTATION:
+          return `The transaction will be sent to the Cosmostation Browser Extension for you to review and approve.`
         default:
           return ``
       }

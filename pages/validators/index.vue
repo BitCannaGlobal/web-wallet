@@ -29,7 +29,7 @@
           <img src="icon/height.png" />
           &ensp; Height
         </h4>
-        <p class="text-block">
+        <p v-if="block" class="text-block">
           {{ block.height }}
         </p>
       </div>
@@ -138,11 +138,23 @@ export default {
   align-self: center;
 }
 
-.data-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0 1.5rem 0;
+@media (min-width: 300px) {
+  .data-row {
+    margin: 2 auto;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(1, 1fr);
+    padding: 0 1.5rem 0;
+  }
+}
+
+@media (min-width: 900px) {
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    grid-template-columns: repeat(3, 1fr);
+    padding: 0 1.5rem 0;
+  }
 }
 
 .data-row div {
