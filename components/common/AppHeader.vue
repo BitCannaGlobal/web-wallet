@@ -39,12 +39,11 @@
           />
           <br />
           <a
-            class="app-menu-item"
+            class="app-menu-item textSize"
             href="https://app.stargaze.zone/launchpad/stars1cpzvvmlrc9lcw3q5yrznax0uk5h6xww2d4ch9xve4xu8mfvgw2kqepnwd2"
             title="View all"
           >
-            You dont have nft! <br />
-            Mint it
+            You don't have a NFT yet!
           </a>
         </div>
       </div>
@@ -273,6 +272,10 @@ img {
 .blurNft {
   filter: blur(4px);
 }
+.textSize {
+  font-size: 0.8em;
+}
+
 @media screen and (max-width: 1023px) {
   .app-header {
     width: 100%;

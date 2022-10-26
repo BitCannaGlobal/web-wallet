@@ -1,8 +1,12 @@
 <template>
   <div class="swap2">
     <h3>
-      My Buddhead collection Nft's
-      <CommonButton link="true" :href="collectionUrl" value="Mint It" />
+      Buddhead NFT Collection
+      <CommonButton
+        link="true"
+        :href="collectionUrl"
+        value="Mint on Stargaze!"
+      />
     </h3>
     <div class="swap-card2">
       <div>

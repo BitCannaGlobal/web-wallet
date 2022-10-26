@@ -29,7 +29,7 @@
           <img src="icon/height.png" />
           &ensp; Height
         </h4>
-        <p class="text-block">
+        <p v-if="block" class="text-block">
           {{ block.height }}
         </p>
       </div>

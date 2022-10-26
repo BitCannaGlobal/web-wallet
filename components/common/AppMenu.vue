@@ -61,7 +61,7 @@
         title="My Nft"
         @click.native="handleClick()"
       >
-        <h2 class="app-menu-title">My Nft</h2>
+        <h2 class="app-menu-title">Collectibles</h2>
         <i class="material-icons notranslate">chevron_right</i>
       </nuxt-link>
       <template v-if="session && network.swapEnabled">
