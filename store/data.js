@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { /* keyBy, */ uniqBy } from 'lodash'
 import network from '~/common/network'
 // import DataSource from '~/apis/cosmos-source-0.39'
@@ -225,12 +225,11 @@ export const actions = {
         // await state.validators.forEach(function (item) {
         let apiRes = null
         const finalAvatar =
-          'https://raw.githubusercontent.com/cosmostation/cosmostation_token_resource/master/moniker/bitcanna/' +
+          'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/bitcanna/moniker/' +
           item.operatorAddress +
           '.png'
         try {
-          await axios.get(finalAvatar)
-          apiRes = finalAvatar
+          apiRes = await finalAvatar
         } catch (err) {
           apiRes = 'logo-bcna.png'
         }
