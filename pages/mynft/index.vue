@@ -82,7 +82,7 @@ export default {
           console.log(item)
           myNft.push({
             url:
-              'https://stargaze.mypinata.cloud/ipfs/bafybeia45l2eflxa4xx7ii6mhekyhh5xnucudj5tzp2upzcoeqfl4uzdr4/images/' +
+              'https://bafybeia45l2eflxa4xx7ii6mhekyhh5xnucudj5tzp2upzcoeqfl4uzdr4.ipfs.nftstorage.link/images/' +
               item.tokenId +
               '.png',
             id: item.tokenId,
